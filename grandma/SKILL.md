@@ -258,17 +258,22 @@ Run this once per answer Grandma looks for (the mission target, or each of her t
 ((needle) => {
   const root = document.querySelector('main') || document.body;
   const words = s => s.split(/\s+/).filter(Boolean).length;
-  const skimSel = 'h1,h2,h3,h4,strong,b,mark,button,[role=button],input[type=submit]';
+  const skimSel = 'h1,h2,h3,h4,strong,b,mark,button,[role=button],input[type=submit],a[class*=button],a[class*=btn],a[class*=cta]';
   const n = needle.toLowerCase().replace(/\s+/g, ' ').trim();
+  // Side menus without proper tags: a narrow, full-height panel against the left or right edge.
+  const inSidePanel = el => { for (let e = el; e && e !== document.body; e = e.parentElement) {
+      const r = e.getBoundingClientRect();
+      if (r.width < innerWidth * 0.3 && r.height >= innerHeight * 0.8 && (r.left < 10 || r.right > innerWidth - 10)) return true; }
+    return false; };
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let all = 0, skim = 0;
   for (let node; (node = walker.nextNode());) {
     const el = node.parentElement;
-    if (!el || el.closest('nav,footer,script,style,noscript,template')) continue;
+    if (!el || el.closest('nav,aside,footer,[role=navigation],[role=complementary],script,style,noscript,template')) continue;
     const r = el.getBoundingClientRect(); const s = getComputedStyle(el);
-    if (r.width === 0 || r.height === 0 || s.visibility === 'hidden') continue;
+    if (r.width === 0 || r.height === 0 || s.visibility === 'hidden' || inSidePanel(el)) continue;
     const t = node.textContent.replace(/\s+/g, ' ').trim(); if (!t) continue;
-    const inSkim = !!el.closest(skimSel);
+    const inSkim = !!el.closest(skimSel) || parseFloat(s.fontSize) >= 24;
     const i = t.toLowerCase().indexOf(n);
     if (i >= 0) {
       const before = words(t.slice(0, i));
@@ -283,9 +288,9 @@ Run this once per answer Grandma looks for (the mission target, or each of her t
 ```
 
 What it returns:
-- `inSkim`: true if the answer sits in a headline, bold text, or a button, so Grandma can spot it while skimming.
-- `wordsBefore`: all the words she reads, from the top of the main content, before she reaches the answer. Menus and the footer are not counted.
-- `skimWordsBefore`: only the skim words (headlines, bold, buttons) before it.
+- `inSkim`: true if the answer sits in a headline, bold text, a button, or big text (24 px or more, like a large price), so Grandma can spot it while skimming.
+- `wordsBefore`: all the words she reads, from the top of the main content, before she reaches the answer. Menus (including side menus), sidebars, and the footer are not counted.
+- `skimWordsBefore`: only the skim words (headlines, bold, buttons, big text) before it.
 - `screensDown`: how many screens she scrolls to reach it (under 1 means it is on the first screen).
 - `skimWordsOnPage` (only when not found): all the skim words on the page, used for pages without the answer.
 
