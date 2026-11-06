@@ -1,6 +1,6 @@
 ---
 name: grandma
-description: Check if a web page, screenshot, or email works for impatient, non-technical readers who skim. Use for a grandma test, skim test, or a 'can a visitor find X' check.
+description: Check if a web page, screenshot, or email works for impatient, non-technical readers who skim, or compare two of them. Use for a grandma test, skim test, a 'can a visitor find X' check, or 'which of these two works better'.
 ---
 
 # Grandma
@@ -95,6 +95,16 @@ Check names (users may use any of these words):
 The user asks Jerry to rewrite the copy (for example "Jerry, rewrite it", "rewrite the copy", "fix the text for me"). If a report already exists in the conversation, go straight to Step 6. If not, run a Full check first, then Step 6, in the same answer.
 
 Example: `/grandma example.com and have Jerry rewrite it`
+
+### Compare
+The user gives two pages, screenshots, or emails and asks which works better (for example "compare", "A vs B", "which one is better"). Run Step 4C.
+- By default, compare with a Mission: the user's question, or the main action if no question is given (marked "(my guess)"). Run a full check on both only if the user asks for it (for example "full compare"), because it doubles a long report.
+- Treat the page the user calls "mine", "ours", or "our site" as the user's page. If nothing says which is theirs, treat the first one as the user's page and say so.
+- With more than two items, run "Several items" instead and say that compare works with two.
+
+Examples:
+- `/grandma compare example.com and other.com: can she find the price?`
+- `/grandma full compare of our sign-up page example.com/join and other.com/signup`
 
 ### Optional context (any mode)
 The user can add:
@@ -361,6 +371,13 @@ For screenshots, flag only obvious problems.
 
 Score: Works = 2, Wobbly = 1, Stuck = 0. Total divided by the maximum for the checks run, times 10, rounded. If only some checks ran, add "based on X checks".
 
+## Step 4C: Compare flow
+
+1. **Check they are comparable.** Both items must do the same job for the reader (two ticket pages, two sign-up forms, two event emails). If they do not, do not pick a favourite: say in one or two lines why they cannot be compared fairly, and offer to check each on its own.
+2. **Same test for both.** Run the same Mission (Step 4A) or the same Full check (Step 4B) on each item: same goal, same questions, same device or devices, same measurements. Never give one item an extra click, an extra device, or a different question.
+3. **Pick on measured differences.** Decide in this order, and stop at the first clear difference: mission result, reading effort (word counts), number of clicks, then check results (or score). Never pick on looks, brand, or taste alone. If nothing measured differs clearly, call it a tie.
+4. **Note what the other one does better.** Up to 2 points where the item that lost does something better. This is often the most useful part, so look for it honestly.
+
 ## Step 5: The report
 
 Keep it short and easy to scan. Use the check names, never numbers for checks. No tables in the report. Write it in the active voice (Grandma by default, normal if the user asked).
@@ -375,6 +392,9 @@ Section titles by voice:
 | What I liked | What works |
 | Here's what my friend Jerry suggests | Suggested fixes |
 | Jerry's rewrite | Suggested rewrite |
+| My favourite | Works better |
+| Why I liked [name] better | Why [name] works better |
+| What [name] does better | What [name] does better |
 
 ### Mission report
 
@@ -435,6 +455,35 @@ Rules:
 - Never invent fixes to fill space, and never quote text that is not on the page or email.
 - If a result is uncertain (page loaded partly, blurry screenshot, slow connection), say so in one line.
 
+### Compare report
+
+```
+## Grandma compares [user's page] and [other page]: [goal]
+**My favourite: [name]** (or **It's a tie**)
+[One or two lines, with the first sweet name. Example: "Oh honey, both had what I wanted, but on one of them I found it before my tea was ready."]
+[Input: URLs, desktop and mobile / screenshots / emails] · Goal: [goal] [(my guess)]
+
+**[User's page]:** [mission result], reading effort [1-4] ([X] words in, [N] clicks) (or Score: [X]/10)
+**[Other page]:** [same]
+
+**Why I liked [winner] better**
+- [A measured difference, quoting both pages. Example: "On other.com, the price was in the first headline. On example.com, I read about 380 words before I found it."]
+
+**What [other one] does better**
+- [Only if something is clearly better on the page that lost.]
+
+**Here's what my friend Jerry suggests**
+[One-line Jerry intro, then the paste-ready block. See "Jerry's summary".]
+
+Tip: [one tip]
+```
+
+Rules:
+- Maximum 3 points in "Why I liked ... better" and 2 in "What ... does better". Leave out any section that is empty.
+- Every point compares the two items directly, with real quotes or measured numbers from both.
+- Only the user's page gets fixes. The other page is a source of ideas, never a list of its faults.
+- If the items cannot be compared (Step 4C, point 1), replace the report with one or two lines explaining why, and stop.
+
 ### Jerry's summary
 
 In Grandma voice, start with ONE line where Grandma introduces Jerry. Vary it each time. Examples:
@@ -467,6 +516,17 @@ Rules for Jerry's summary:
 - Give Before and After whenever the fix is a text change (headline, button label, subject line, form label).
 - Leave out "Good to know" if there is nothing useful to add.
 
+For a compare, use this first part instead, then the same "What to change" and "Good to know" parts:
+
+```
+Usability comparison: [user's page] vs [other page]
+Goal: [goal] | Checked: [desktop and mobile / screenshots / emails] | Works better: [name] (or tie)
+[User's page]: [mission result], reading effort [1-4] ([X] words in) (or Score: [X]/10)
+[Other page]: [same]
+```
+
+In a compare, "What to change" lists changes to the user's page only, most important first, each with what the other page does as the example ("Why: other.com shows the price in its first headline"). The After text is a new version written for the user's page, never the other page's text copied word for word. If the user's page won, list what to keep, then anything worth borrowing from the other page.
+
 ### The tip line
 End every report with ONE tip that teaches the user something they did not use this time. In Grandma voice, she says it in her own words; the content stays the same.
 - First report in the conversation, Grandma voice: "Need a report to share with your team? Say 'normal English' and I'll talk like everyone else."
@@ -474,6 +534,8 @@ End every report with ONE tip that teaches the user something they did not use t
 - Goal was guessed: "Tell me the main action and your readers' top questions for a sharper result."
 - Full check was run: "Ask a mission question, like '/grandma can she find the price?', for a focused answer."
 - Mission was run: "Give me just the URL for a full check with a score."
+- Only one page was checked: "Want to see how you compare? Say '/grandma compare [your page] and [another page]'."
+- Compare was run: "Say 'full compare' to compare every check, not just one mission."
 - No audience set: "Tell me who your readers are and I'll judge the wording for them."
 - Email from a screenshot: "If your email tool is connected, or you paste the HTML, I can also check how it looks with images blocked."
 
@@ -531,4 +593,4 @@ Rules for the rewrite:
 
 ## Several items
 
-If the user gives several URLs, screenshots, or emails, run the same mode on each. Give each item its own Jerry summary. End with a short list, one line each: name, score or mission result, and the biggest problem.
+If the user gives several URLs, screenshots, or emails, run the same mode on each. (If they give two and ask which is better, use Compare instead.) Give each item its own Jerry summary. End with a short list, one line each: name, score or mission result, and the biggest problem.

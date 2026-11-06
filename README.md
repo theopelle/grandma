@@ -31,6 +31,8 @@ Claude reads every word perfectly, but real visitors don't. Asking an AI to "pre
 | `/grandma example.com` | A full check with a score out of 10 |
 | `/grandma can she find how to buy a ticket on example.com?` | A mission: her path, where she got stuck, whether she made it, and how much she had to read |
 | `/grandma example.com, only headlines and buttons` | Only the checks you picked |
+| `/grandma compare example.com and other.com: can she find the price?` | Her favourite of the two, why it works better, what the other one does better, and what to change on yours |
+| `/grandma full compare of example.com and other.com` | The same comparison across every check, with a score for each |
 | `/grandma` + an attached screenshot | A check of any interface: page, app, form, or slide |
 | `/grandma` + an email screenshot, or the email HTML | An email check |
 | `Jerry, rewrite it` | New headlines, buttons, and form labels, ready to paste |
