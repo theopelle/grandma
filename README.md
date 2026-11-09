@@ -43,8 +43,8 @@ Type `/grandma` with a link, and she'll ask what you'd like. Or say it straight 
 | What you want | Example | What you get |
 |---|---|---|
 | **Check it** | `/grandma full check of example.com` | A score out of 10, how each part did, and what to fix |
-| **Try one thing** | `/grandma can she find the price on example.com?` | Whether she made it, the path she took, and how much she had to read |
-| **Compare it** | `/grandma compare example.com and other.com: can she find the price?` | Her favorite, why, what the other one does better, and what to change on yours |
+| **Try one thing** | `/grandma can you find the price on example.com?` | Whether she made it, the path she took, and how much she had to read |
+| **Compare it** | `/grandma compare example.com and other.com: can you find the price?` | Her favorite, why, what the other one does better, and what to change on yours |
 | **Rewrite it** | `Jerry, rewrite it` | New headlines, buttons, and email subject lines, ready to paste |
 
 It works with:
