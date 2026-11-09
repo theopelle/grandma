@@ -62,7 +62,7 @@ Good to know:
 ### Claude Code
 
 ```bash
-claude plugin marketplace add OWNER/grandma-skill
+claude plugin marketplace add theopelle/grandma-skill
 ```
 
 ```bash
@@ -72,14 +72,14 @@ claude plugin install grandma@grandma-skill
 Or, inside a Claude Code session (version 2.1.275 or later), in one step:
 
 ```
-/plugin install grandma --marketplace OWNER/grandma-skill
+/plugin install grandma --marketplace theopelle/grandma-skill
 ```
 
 Then type `/grandma`. If another command already uses that name, type `/grandma:grandma`.
 
 ### Claude apps (web and desktop)
 
-1. Download `grandma.zip` from the [latest release](https://github.com/OWNER/grandma-skill/releases/latest).
+1. Download `grandma.zip` from the [latest release](https://github.com/theopelle/grandma-skill/releases/latest).
 2. In Claude, go to **Customize > Skills**, click **+**, then **Create skill > Upload a skill**.
 3. Upload the ZIP file.
 
@@ -89,7 +89,7 @@ Grandma uses the open Agent Skills format (a folder with a `SKILL.md`), which bo
 
 - **Gemini CLI:**
   ```bash
-  gemini skills install https://github.com/OWNER/grandma-skill --path skills/grandma
+  gemini skills install https://github.com/theopelle/grandma-skill --path skills/grandma
   ```
 - **Codex:** copy the `skills/grandma` folder into `~/.codex/skills/`.
 
