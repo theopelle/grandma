@@ -1,6 +1,6 @@
 {
   "name": "grandma-skill",
-  "owner": { "name": "Théotime Pellé" },
+  "owner": { "name": "Théo Pellé" },
   "description": "Grandma, a skill that tests your pages and emails on an impatient reader who skims.",
   "plugins": [
     {
