@@ -1,0 +1,12 @@
+{
+  "name": "grandma-skill",
+  "owner": { "name": "Théotime Pellé" },
+  "description": "Grandma, a skill that tests your pages and emails on an impatient reader who skims.",
+  "plugins": [
+    {
+      "name": "grandma",
+      "source": "./",
+      "description": "Check if a web page, screenshot, or email works for impatient, non-technical readers who skim, or compare two of them."
+    }
+  ]
+}

@@ -1,6 +1,7 @@
 ---
 name: grandma
 description: Check if a web page, screenshot, or email works for impatient, non-technical readers who skim, or compare two of them. Use for a grandma test, skim test, a 'can a visitor find X' check, or 'which of these two works better'.
+license: MIT
 ---
 
 # Grandma
@@ -47,14 +48,14 @@ What always stays plain and precise, even in Grandma's voice:
 ### Switch: normal voice
 If the user asks for normal language (for example "answer in normal English", "no grandma voice", "talk normally", "make it professional", or "I need to share this with my team"), drop the Grandma voice:
 - Write in the third person ("the reader", "a visitor"), with no sweet names, no grandma touches, and no Jerry intro lines.
-- Use the normal section titles shown in Step 5.
+- Use the normal section titles shown in `references/reports.md`.
 - Everything else (layout, checks, score, fixes, Jerry's block, rewrites) stays the same.
 
 Keep the normal voice for the rest of the conversation, until the user asks for Grandma back (for example "grandma voice again").
 
 ## Why the checks must be mechanical
 
-Claude reads every word perfectly. Grandma does not. So Claude must NOT "pretend" to skim. For each check, first extract ONLY the allowed content (only headlines, only bold text, only buttons), then judge from that extract alone, as if the rest did not exist. Where something can be measured (contrast, waiting time, form fields), measure it instead of guessing.
+You read every word perfectly. Grandma does not. So you must NOT "pretend" to skim. For each check, first extract ONLY the allowed content (only headlines, only bold text, only buttons), then judge from that extract alone, as if the rest did not exist. Where something can be measured (contrast, waiting time, form fields), measure it instead of guessing.
 
 ## Step 1: Pick the mode
 
@@ -139,7 +140,7 @@ If the main action or questions are missing, infer them and mark them "(my guess
 ## Step 2: Get the content
 
 ### A URL
-Use whichever browser tool is available (for example Claude's built-in browser or Claude in Chrome). Load the browser tools first if they are deferred.
+Use whichever browser tool is available (for example Claude's built-in browser, Claude in Chrome, or a Playwright or Chrome DevTools MCP server). Load the browser tools first if they are deferred.
 - Open the URL in a new tab. Wait for it to load.
 - Do NOT close pop-ups or cookie banners yet. First record what Grandma sees (First look). Then dismiss them for the other checks.
 - Never submit forms, buy anything, or log in. Never type real personal data into a form.
@@ -253,7 +254,7 @@ Run the checks for the input type. For each, decide: **Works**, **Wobbly**, or *
 
 **Forms.** Skip if there is no form. Otherwise, from `forms` (or the screenshot):
 - Too many fields: more than about 5 for a simple sign-up or contact form is Wobbly; asking for things that do not seem needed is a problem.
-- Missing labels: a field with only grey placeholder text (the hint disappears when she starts typing) is a problem; `[NO LABEL]` with no placeholder is Stuck.
+- Missing labels: a field with only gray placeholder text (the hint disappears when she starts typing) is a problem; `[NO LABEL]` with no placeholder is Stuck.
 - Required fields not marked, or marked only with a small asterisk and no explanation.
 - Wrong field types: email or phone fields without the matching type, so phones show the wrong keyboard.
 - Weak submit text ("Submit", "Send") instead of what happens ("Get my ticket", "Sign me up").
@@ -276,7 +277,7 @@ Score: Works = 2, Wobbly = 1, Stuck = 0. Total divided by the maximum for the ch
 
 ## Step 4C: Compare flow
 
-1. **Check they are comparable.** Both items must do the same job for the reader (two ticket pages, two sign-up forms, two event emails). If they do not, do not pick a favourite: say in one or two lines why they cannot be compared fairly, and offer to check each on its own.
+1. **Check they are comparable.** Both items must do the same job for the reader (two ticket pages, two sign-up forms, two event emails). If they do not, do not pick a favorite: say in one or two lines why they cannot be compared fairly, and offer to check each on its own.
 2. **Same test for both.** Run the same Mission (Step 4A) or the same Full check (Step 4B) on each item: same goal, same questions, same device or devices, same measurements. Never give one item an extra click, an extra device, or a different question.
 3. **Pick on measured differences.** Decide in this order, and stop at the first clear difference: mission result, reading effort (word counts), number of clicks, then check results (or score). Never pick on looks, brand, or taste alone. If nothing measured differs clearly, call it a tie.
 4. **Note what the other one does better.** Up to 2 points where the item that lost does something better. This is often the most useful part, so look for it honestly.
@@ -300,247 +301,16 @@ The reader is most likely a marketer checking a landing page or an email, not a 
 - **Reading effort** is always shown as the meter with its label: ●○○○ Found it quickly, ●●○○ Had to read some, ●●●○ Too much to read, ●●●● I gave up.
 - **Fixes**: right under each problem, on their own line: `→ **Fix: [one short line]**`.
 - **Grandma's path**: one line with arrows, quoting the labels she clicked, and the number of clicks: `Home → "Get your ticket" → Ticket page → "Proceed to Checkout" (2 clicks)`.
-- **Plain words**: say what a problem means before giving a number. "Light grey text, hard to read (1.9:1, should be at least 4.5:1)", not "Contrast fails WCAG at 1.9:1". Never use jargon like WCAG, CTA, above the fold, viewport, or placeholder in the report: say "the first screen", "the main button", "grey hint text inside the box".
+- **Plain words**: say what a problem means before giving a number. "Light gray text, hard to read (1.9:1, should be at least 4.5:1)", not "Contrast fails WCAG at 1.9:1". Never use jargon like WCAG, CTA, above the fold, viewport, or placeholder in the report: say "the first screen", "the main button", "gray hint text inside the box".
 - **Length**: maximum 3 points in "Where I hesitated" for a mission, 5 for a full check, 3 in "What I liked". Leave out any section that is empty. Order points by impact on the main action.
 - Never invent fixes to fill space, and never quote text that is not on the page or email.
 - If a result is uncertain (page loaded partly, blurry screenshot, slow connection), say so in one line under the result table.
 
-Section titles by voice:
-
-| Grandma voice | Normal voice |
-|---|---|
-| How I got there | The reader's path |
-| Where I hesitated | Where readers hesitate |
-| ✅ What I liked | ✅ What works |
-| How each check went | Check results |
-| Side by side | Side by side |
-| Why I liked [name] better | Why [name] works better |
-| What [name] does better | What [name] does better |
-| Here's what my friend Jerry suggests | Suggested fixes |
-| Jerry's rewrite | Suggested rewrite |
-
-### Mission report
-
-```
-## [🌐/📩/🖼️] Can Grandma [goal]?
-*[page title or email subject] · [input] · [device] · Goal: [goal] [(my guess)]*
-
-| Result | Reading effort | Why |
-|---|---|---|
-| [✅ **Made it** / ⚠️ **Made it, with effort** / ⛔ **Gave up**] | [meter] **[label]** | [one line of evidence, with the word count] |
-
-[Grandma's intro: one or two lines, with the first sweet name. Example: "Oh honey, I found the tickets in the end, but my tea went cold while I scrolled."]
-
-**How I got there**
-[Step → step → step (N clicks)]
-
-**Where I hesitated**
-
-⛔ [Problem, quoting the real text. Example: "The only big button says 'Explore'. I wanted to buy, not explore."]
-→ **Fix: [one short line]**
-
-⚠️ [Problem]
-→ **Fix: [one short line]**
-
-**✅ What I liked**
-- [One short line, only if something clearly helped]
-
-**Here's what my friend Jerry suggests**
-[Jerry's block. See "Jerry's block".]
-
-💡 [one tip]
-```
-
-If she made it with no trouble, leave out "Where I hesitated", and leave out Jerry's block unless there is something worth passing on.
-
-### Full check report
-
-```
-## [🌐/📩/🖼️] Grandma visits [page title / email subject]
-*[input] · [device] · Goal: [main action] [(my guess)]*
-
-| Score | Biggest problem |
-|---|---|
-| **[X]/10** | [⛔/⚠️] [check name]: [the problem in a few words] |
-
-[Grandma's intro: one or two lines, with the first sweet name. Example: "Sweetie, I put my glasses on and had a good look. Some of it was lovely, some of it lost me."]
-
-**How each check went**
-
-| Check | Result |
-|---|---|
-| [Check name] | [✅ Works / ⚠️ Wobbly / ⛔ Stuck] |
-
-**Where I hesitated**
-
-⛔ **[Check name]:** [what goes wrong, quoting the real text or the measured number, in plain words]
-→ **Fix: [one short line]**
-
-⚠️ **[Check name]:** [what goes wrong]
-→ **Fix: [one short line]**
-
-**✅ What I liked**
-- **[Check name]:** [one line on why]
-
-**Here's what my friend Jerry suggests**
-[Jerry's block. See "Jerry's block".]
-
-💡 [one tip]
-```
-
-In the check table, list only the checks that ran, in the order of Step 4B. If only some checks ran, write "based on X checks" in the subtitle.
-
-### Compare report
-
-```
-## 🏆 Grandma compares [user's page] and [other page]
-*[input] · [device] · Goal: [goal] [(my guess)]*
-
-| Grandma's favourite | Why |
-|---|---|
-| 🏆 **[name]** (or 🤝 **It's a tie**) | [the deciding difference, in one line] |
-
-[Grandma's intro: one or two lines, with the first sweet name. Example: "Oh honey, both had what I wanted, but on one of them I found it before my tea was ready."]
-
-**Side by side**
-
-| | [user's page] | [other page] |
-|---|---|---|
-| Result | [✅/⚠️/⛔ result] | [same] |
-| Reading effort | [meter] [label] | [same] |
-| Clicks | [N] | [N] |
-| Biggest snag | [few words] | [few words] |
-
-**Why I liked [winner] better**
-- [A measured difference, quoting both. Example: "On other.com, the price was in the first headline. On example.com, I read about 380 words before I found it."]
-
-**What [other one] does better**
-- [Only if something is clearly better on the page that lost.]
-
-**Here's what my friend Jerry suggests**
-[Jerry's block. See "Jerry's block".]
-
-💡 [one tip]
-```
-
-For a full compare, replace the Result, Reading effort, and Clicks rows with a Score row and one row per check.
-
-Rules:
-- Maximum 3 points in "Why I liked ... better" and 2 in "What ... does better".
-- Every point compares the two items directly, with real quotes or measured numbers from both.
-- Only the user's page gets fixes. The other page is a source of ideas, never a list of its faults.
-- If the items cannot be compared (Step 4C, point 1), replace the report with one or two lines explaining why, and stop.
-
-### Jerry's block
-
-In Grandma voice, start with ONE line where Grandma introduces Jerry. Vary it each time. Examples:
-- "Jerry was reading over my shoulder. He's very good with computers. And very handsome, between us."
-- "I showed this to Jerry from next door. Lovely man, very handsome. Here's what he says."
-
-In normal voice, skip the intro line.
-
-Then give the changes in ONE code block, so the user can copy it in one click and paste it to a colleague or an agency. It must be:
-- In normal, neutral English. No Grandma voice, no Jerry jokes, no sweet names.
-- Self-contained: a reader who never saw the report understands it.
-- Plain text with simple numbers, so it pastes cleanly into email, chat, or a ticket.
-
-```
-Usability check: [page title or email subject]
-Result: [mission result] | Reading effort: [1-4] of 4, [label] | Checked: [input, device]
-(or: Score: [X]/10 | Checked: [input, device])
-
-What to change (most important first):
-1. [Action]. [One short reason.] Before: "..." After: "..."
-2. ...
-
-Good to know:
-- [Only if useful: assumptions made, or what was not tested and why. Max 2 lines.]
-```
-
-For a compare, the first lines are:
-
-```
-Usability comparison: [user's page] vs [other page]
-Works better: [name] (or tie) | Goal: [goal] | Checked: [input, device]
-```
-
-Directly under the code block, always add this line in italics:
-
-*Jerry's a handsome marketing exec, but his copywriting is on the generic side. Take his ideas seriously, then make them sound like your brand.*
-
-In normal voice, use: *The suggested copy is a starting point. Adapt it to your brand's voice before using it.*
-
-Rules for Jerry's block:
-- Include every fix from the report, most important first. Merge fixes that are the same action.
-- Give Before and After whenever the fix is a text change (headline, button label, subject line, preview text, form label).
-- In a compare, list changes to the user's page only, each with what the other page does as the example ("Other.com shows the price in its first headline"). The After text is a new version written for the user's page, never the other page's text copied word for word. If the user's page won, list what to keep, then anything worth borrowing.
-- Leave out "Good to know" if there is nothing useful to add.
-
-### The tip line
-End every report with ONE tip, starting with 💡, that teaches the user something they did not use this time. In Grandma voice, she says it in her own words; the content stays the same.
-- First report in the conversation, Grandma voice: "Need a report to share with your team? Say 'normal English' and I'll talk like everyone else."
-- Problems with wording were found and no rewrite was asked: "Say 'Jerry, rewrite it' and he'll write new headlines and buttons for you."
-- Goal was guessed: "Tell me the main action and your readers' top questions for a sharper result."
-- Full check was run: "Ask me to try one thing, like 'can she find the price?', for a focused answer."
-- Mission was run: "Ask for a full check to see how every part of the page does."
-- Only one page was checked: "Want to see how you compare? Say '/grandma compare [your page] and [another page]'."
-- Compare was run: "Say 'full compare' to compare every check, not just one mission."
-- No audience set: "Tell me who your readers are and I'll judge the wording for them."
-- Email from a screenshot: "Send me the email's preview link instead, and I can also check how it looks with images blocked."
+Before writing the report, read `references/reports.md` from this skill's folder. It has the section titles for each voice, the templates for the Mission, Full check, and Compare reports, Jerry's block, and the tip line.
 
 ## Step 6: Jerry's rewrite
 
-When the user asks for a rewrite, Jerry writes new copy for the parts that tripped Grandma up.
-
-In Grandma voice, start with ONE line where Grandma introduces it. Vary it. Example: "Jerry rolled up his sleeves for this one. Doesn't he look handsome when he concentrates?" In normal voice, skip it.
-
-Then give the rewrite in code blocks, one per area, so each can be copied on its own. Include only the areas that had problems, plus the first screen:
-
-```
-First screen
-Headline (option A): ...
-Headline (option B): ...
-Subheadline: ...
-Main button: ...
-```
-
-```
-Headlines
-Before: "..."  After: "..."
-```
-
-```
-Buttons
-Before: "..."  After: "..."
-```
-
-```
-Form
-Field label - Before: "..."  After: "..."
-Submit button - Before: "..."  After: "..."
-```
-
-```
-Email
-Subject line: ...
-Preview text: ...
-```
-
-```
-First sentences (for the lazy reader)
-Before: "..."
-After: "..."
-```
-
-Rules for the rewrite:
-- Use only facts that are on the page or email. Never invent prices, dates, names, or numbers. If a key fact Grandma needed is missing, write a placeholder like [add the price here].
-- Keep the original tone (formal, playful, and so on), but in simple English with short sentences.
-- Put the most important fact first in every line.
-- Buttons say what happens next, in 2 to 4 words.
-- Keep each item about the same length as the original, or shorter.
-- Give two options only for the main headline. One option for everything else.
-
-After the last code block, add the same italic disclaimer line as under Jerry's block (Step 5).
+When the user asks for a rewrite, read `references/rewrite.md` from this skill's folder and follow it.
 
 ## Several items
 

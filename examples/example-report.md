@@ -37,11 +37,11 @@ Oh honey, I put my glasses on and had a good look. The flowers are lovely, but I
 ⛔ **Finding it:** I wanted to know the price. I read about 380 words about the history of the garden before I found it near the bottom. Reading effort ●●●○ Too much to read.
 → **Fix: Put the price near the top, next to the date.**
 
-⛔ **Forms:** The email box only has grey hint text inside it, "Email". When I started typing, the hint disappeared and I forgot what the box was for.
+⛔ **Forms:** The email box only has gray hint text inside it, "Email". When I started typing, the hint disappeared and I forgot what the box was for.
 → **Fix: Add a visible label above each box.**
 
-⚠️ **Easy to read:** The intro text is light grey on white, so it's hard to read (1.9:1, should be at least 4.5:1). I had to lean in, dear.
-→ **Fix: Use a darker grey for the body text.**
+⚠️ **Easy to read:** The intro text is light gray on white, so it's hard to read (1.9:1, should be at least 4.5:1). I had to lean in, dear.
+→ **Fix: Use a darker gray for the body text.**
 
 ⚠️ **Bold text:** Only "12 May" is bold. Where is it, and how much does it cost?
 → **Fix: Make the place and price bold too.**
@@ -61,7 +61,7 @@ What to change (most important first):
 1. Rename the main button. "Explore" does not say you can buy tickets here. Before: "Explore" After: "Get your ticket"
 2. Move the price up to the first screen, next to the date. A reader has to get through about 380 words before finding it.
 3. Add visible labels to the form fields. Hint text inside the box disappears when typing. Before: hint "Email" After: label "Your email address"
-4. Darken the intro text. Light grey on white is hard to read (1.9:1, should be at least 4.5:1).
+4. Darken the intro text. Light gray on white is hard to read (1.9:1, should be at least 4.5:1).
 5. Bold the place and price, not only the date. Skimmers read bold text first.
 
 Good to know:
