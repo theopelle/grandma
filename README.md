@@ -8,7 +8,7 @@ Grandma reports back in her own voice. Her friend Jerry (mid-50s, good with comp
 
 ## What you get
 
-`/grandma can she find the price on example.com/spring-fair?`
+`/grandma can you find the price on example.com/spring-fair?`
 
 ---
 
