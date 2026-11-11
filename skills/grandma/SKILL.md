@@ -140,12 +140,37 @@ If the main action or questions are missing, infer them and mark them "(my guess
 ## Step 2: Get the content
 
 ### A URL
-Use whichever browser tool is available (for example Claude's built-in browser, Claude in Chrome, or a Playwright or Chrome DevTools MCP server). Load the browser tools first if they are deferred.
+Grandma is a first-time visitor, so use a clean browser with no cookies or logins. Load browser tools first if they are deferred, then take the first option that works:
+
+1. **A built-in or isolated browser tool**: Claude's built-in browser (in Cowork and the desktop app), or a Playwright or Chrome DevTools MCP server.
+2. **Headless Chrome**, when there is no browser tool but you can run shell commands (for example in Claude Code). See "Headless Chrome" below.
+3. **Claude in Chrome** (the user's own Chrome). Its cookies and logins are the user's, so cookie banners may not appear and the site may recognize them. Say in one line under the result table: "Checked in your own Chrome, so cookie banners and logins may differ from a first-time visit."
+4. **No browser at all**: fetch the HTML with a web fetch tool, run the text checks only, and say the visual and measured checks were skipped.
+
+With a browser tool:
 - Open the URL in a new tab. Wait for it to load.
 - Do NOT close pop-ups or cookie banners yet. First record what Grandma sees (First look). Then dismiss them for the other checks.
 - Never submit forms, buy anything, or log in. Never type real personal data into a form.
 - For each device: desktop is about 1280 px wide, mobile about 390 px. If the browser cannot resize, test the current size and say so.
-- If no browser tool is available, fetch the HTML with a web fetch tool, run the text checks only, and say the visual and measured checks were skipped.
+
+### Headless Chrome
+`scripts/headless.cjs` opens the page in a clean, invisible browser at an exact size, takes screenshots, closes the cookie banner with its most privacy-friendly button, and runs both measuring scripts (Step 3) for you.
+
+1. Check that Node is installed (`node --version`, 18 or later). If it is not, use the next option in the list above.
+2. Make a work folder in your temporary or scratchpad folder. The script needs the `playwright-core` package (about 15 MB). If it is not installed, ask the user first, in one line: "To open the page, I'd like to install a small browser helper (playwright-core, about 15 MB). OK?" Then run `npm install playwright-core` in the work folder.
+3. The script uses the installed Google Chrome. If Chrome is not installed, it needs Playwright's own browser (about 150 MB): ask the user again before running `npx playwright-core install chromium`.
+4. Run it once per device, with the answer phrases for "Finding the answer" at the end:
+   - Desktop: `NODE_PATH=<work folder>/node_modules node <skill folder>/scripts/headless.cjs <url> 1280 800 <output folder> "phrase 1" "phrase 2"`
+   - Mobile: the same with `390 844`.
+   - On Windows, set `NODE_PATH` with `set` first.
+
+What it returns, as JSON:
+- `screenshots.firstLook`: the first screen exactly as a first-time visitor sees it, banners included. Open it as an image and use it for First look. `screenshots.fullPage` is the whole page after the banner is closed.
+- `cookieBanner`: which button closed it, or "none found". If none was found, check the first-look screenshot for a banner and say it could not be closed.
+- `extract` and `finds`: the same results as the scripts in Step 3.
+- `links`: the visible links with their text and address. For a mission, Grandma picks the link she would click, and you run the script again on that address. It counts as one click.
+
+The script can only follow links. If Grandma's path needs a menu, tab, or accordion opened, say so in the report and judge that step from the screenshot.
 
 ### A screenshot (any interface: page, app, form, slide)
 The user attaches an image. Look at it directly. There is no script, so make the extract by hand BEFORE judging:
@@ -171,7 +196,7 @@ For email HTML, extract by reading the HTML (emails rarely use proper heading ta
 
 ## Step 3: Extract the data (URLs only)
 
-Read `scripts/extract.js` from this skill's folder and run its whole content in the page with the browser's JavaScript tool. It never changes or submits anything. Skip it if only First look is needed and no timing is wanted.
+With headless Chrome (Step 2), both scripts run automatically: use the `extract` and `finds` results from its output, and skip to Step 4. Otherwise, read `scripts/extract.js` from this skill's folder and run its whole content in the page with the browser's JavaScript tool. It never changes or submits anything. Skip it if only First look is needed and no timing is wanted.
 
 What the script returns:
 - `headings`, `bold`, `buttons`, `skim`: the extracts for the skim checks.

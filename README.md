@@ -93,7 +93,7 @@ Grandma uses the open Agent Skills format (a folder with a `SKILL.md`), which bo
   ```
 - **Codex:** copy the `skills/grandma` folder into `~/.codex/skills/`.
 
-Both need a browser tool (for example a Playwright or Chrome DevTools MCP server) to check web pages. Without one, Grandma runs the text checks only.
+To check web pages, both need a browser tool (for example a Playwright or Chrome DevTools MCP server), or Node so Grandma can use headless Chrome. Without either, she runs the text checks only.
 
 ## What the report looks like
 
@@ -127,7 +127,12 @@ Grandma stands for any impatient, non-technical reader: a busy parent on a phone
 
 ## Requirements
 
-- **Web pages and email preview links:** a browser tool, such as Claude in Chrome or Claude's built-in browser. Without one, Grandma runs the text checks only.
+- **Web pages and email preview links:** a browser. Grandma looks at the page as a first-time visitor, so she picks the cleanest one available:
+  1. Claude's built-in browser (Cowork and the desktop app), or a Playwright or Chrome DevTools MCP server.
+  2. Headless Chrome, where Claude can run commands (for example Claude Code). It needs Node. Grandma asks before installing the small helper it uses (playwright-core, about 15 MB), and before downloading a browser if Google Chrome isn't installed (about 150 MB).
+  3. Claude in Chrome. It uses your own Chrome, so the report notes that cookie banners and logins may differ from a first visit.
+
+  Without any of these, she runs the text checks only.
 - **Screenshots:** work anywhere.
 - **Emails from your email tool:** a connector for that tool (for example HubSpot or Mailchimp) lets Grandma find the email by name. A preview link or a screenshot works without one.
 
