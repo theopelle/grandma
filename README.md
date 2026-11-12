@@ -84,6 +84,8 @@ Then type `/grandma`. If another command already uses that name, type `/grandma:
 2. In Claude, go to **Customize > Skills**, click **+**, then **Create skill > Upload a skill**.
 3. Upload the ZIP file.
 
+**Getting new features:** an uploaded skill doesn't update by itself. When a new version comes out, download the new `grandma.zip` from the [latest release](https://github.com/theopelle/grandma/releases/latest) and upload it the same way.
+
 ### Codex and Gemini (not tested yet)
 
 Grandma uses the open Agent Skills format (a folder with a `SKILL.md`), which both tools read. We haven't tested her there yet, so please open an issue if something doesn't work.
@@ -103,7 +105,31 @@ To check web pages, both need a browser tool (for example a Playwright or Chrome
 - **Her path** in one line: `Home → "Get your ticket" → Ticket page (1 click)`.
 - **Each problem with its fix in bold** right under it. ⛔ blocked her, ⚠️ slowed her down.
 - **Jerry's list of changes** in one box, ready to copy. (Jerry's copywriting is on the generic side: make his ideas sound like your brand.)
-- **As a PDF** on request, stamped with the verdict and Grandma's face: smiling, flat, or sad. It's made with headless Chrome when it's available; otherwise you get the page to print as a PDF yourself.
+- **As a PDF** on request. See below.
+
+## Save it as a PDF
+
+After any report, say `save it as a PDF` (or `export it`). Grandma puts the same report on a branded A4 page you can send to your team, your boss, or your agency.
+
+<p align="center"><img src="examples/stamps.png" alt="Grandma's three stamps: a green smiling 'Grandma approved', an amber flat 'Needs work', and a red sad 'Failed the test'" width="640"></p>
+
+Every PDF carries one stamp, with Grandma's face to match:
+
+| Stamp | When |
+|---|---|
+| 🟢 **Grandma approved** (smiling) | She made it, or scored 8 to 10, or your page won the compare |
+| 🟠 **Needs work** (flat face) | She made it with effort, or scored 5 to 7, or it was a tie |
+| 🔴 **Failed the test** (sad) | She gave up, or scored 0 to 4, or your page lost the compare |
+
+Jerry's face sits next to his list of changes, and the footer says "Checked by Grandma".
+
+<p align="center"><a href="examples/example-report.pdf"><img src="examples/example-report-pdf.png" alt="First page of a sample PDF report for the made-up Spring Garden Fair, with a 'Needs work' stamp and a score of 6/10" width="480"></a></p>
+<p align="center"><i>A made-up example. Click it to open <a href="examples/example-report.pdf">the full PDF</a>.</i></p>
+
+How the PDF gets made:
+- **Claude Code and other tools that can run commands:** Grandma prints it with headless Chrome. She uses a fresh, temporary profile, so your own Chrome, logins, and history are never touched.
+- **Elsewhere:** she uses an HTML-to-PDF tool if there is one. If not, she gives you the page and you choose **Print > Save as PDF** in your browser.
+- **Fonts** load from Google Fonts. Offline, the PDF uses standard fonts instead and still works.
 
 ## Why it works
 
