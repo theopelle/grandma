@@ -178,6 +178,8 @@ Grandma never submits forms, buys anything, logs in, or types personal data. She
 
 Ideas and fixes are welcome. Please open an issue or a pull request. Keep the skill simple: every new check makes reports slower and longer.
 
+Before every release, Claude runs [`tests/RELEASE-CHECKLIST.md`](tests/RELEASE-CHECKLIST.md): three made-up pages with planted problems and known right answers (`tests/pages/`, `tests/right-answers.md`), plus real pages kept private. Results are in `tests/results/`.
+
 To publish a new version, bump `version` in `.claude-plugin/plugin.json`, then push a matching tag (for example `v1.1.0`). GitHub then builds `grandma.zip` and attaches it to the release.
 
 ## License
