@@ -4,7 +4,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 
 | Step | What | Status |
 |---|---|---|
-| v1.3 | Trust: test pages and a release checklist | Next |
+| v1.3 | Trust: test pages and a release checklist | In progress (started 12 Nov 2026) |
 | v1.4 | Company mode, shipped for one company (NBF) | Planned |
 | Rollout | NBF team: demo and launch checklist | Planned |
 | v1.5 | Several clients, for agencies and freelancers | Planned |
