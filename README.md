@@ -46,6 +46,7 @@ Type `/grandma` with a link, and she'll ask what you'd like. Or say it straight 
 | **Try one thing** | `/grandma can you find the price on example.com?` | Whether she made it, the path she took, and how much she had to read |
 | **Compare it** | `/grandma compare example.com and other.com: can you find the price?` | Her favorite, why, what the other one does better, and what to change on yours |
 | **Rewrite it** | `Jerry, rewrite it` | New headlines, buttons, and email subject lines, ready to paste |
+| **Save it** | `save it as a PDF` | A branded report with Grandma's stamp: green "Grandma approved", amber "Needs work", or red "Failed the test" |
 
 It works with:
 - **Web pages:** paste the link.
@@ -102,6 +103,7 @@ To check web pages, both need a browser tool (for example a Playwright or Chrome
 - **Her path** in one line: `Home → "Get your ticket" → Ticket page (1 click)`.
 - **Each problem with its fix in bold** right under it. ⛔ blocked her, ⚠️ slowed her down.
 - **Jerry's list of changes** in one box, ready to copy. (Jerry's copywriting is on the generic side: make his ideas sound like your brand.)
+- **As a PDF** on request, stamped with the verdict and Grandma's face: smiling, flat, or sad. It's made with headless Chrome when it's available; otherwise you get the page to print as a PDF yourself.
 
 ## Why it works
 

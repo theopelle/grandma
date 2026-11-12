@@ -184,3 +184,4 @@ End every report with ONE tip, starting with 💡, that teaches the user somethi
 - Compare was run: "Say 'full compare' to compare every check, not just one mission."
 - No audience set: "Tell me who your readers are and I'll judge the wording for them."
 - Email from a screenshot: "Send me the email's preview link instead, and I can also check how it looks with images blocked."
+- Second report or later in the conversation, no file asked for yet: "Need to send this to someone? Say 'save it as a PDF' and you'll get it with my stamp on it."

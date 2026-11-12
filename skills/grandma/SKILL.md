@@ -337,6 +337,22 @@ Before writing the report, read `references/reports.md` from this skill's folder
 
 When the user asks for a rewrite, read `references/rewrite.md` from this skill's folder and follow it.
 
+## Step 7: Save as PDF
+
+When the user asks for the report as a file (for example "save it as a PDF", "export it", "I need to send this"), make Grandma's branded report from the last report in the conversation. If there is no report yet, run the check first.
+
+1. **Fill the template.** Read `assets/report.html` from this skill's folder and follow the instructions at its top. Use the same words, voice, and sections as the chat report: the PDF is the same report, not a new one.
+2. **Set the stamp** with `data-verdict` on `<body>`:
+   - `approved` (green, smiling, "Grandma approved"): mission Made it, full check 8 to 10, or a compare the user's page won.
+   - `needs-work` (amber, flat face, "Needs work"): Made it, with effort, full check 5 to 7, or a tie.
+   - `failed` (red, sad face, "Failed the test"): Gave up, full check 0 to 4, or a compare the user's page lost.
+3. **Save the HTML** as `grandma-[page or email name]-[date].html`, in the user's working folder or the place your environment uses for files the user can download.
+4. **Turn it into a PDF** with the first option that works:
+   - **Headless Chrome or Chromium** from the command line, with a fresh profile folder in your temporary folder so it never touches the user's own Chrome: `"<chrome>" --headless --disable-gpu --no-pdf-header-footer --user-data-dir="<temp folder>/chrome-pdf" --virtual-time-budget=5000 --print-to-pdf="<file>.pdf" "file://<file>.html"`. On a Mac, `<chrome>` is `/Applications/Google Chrome.app/Contents/MacOS/Google Chrome`. If `playwright-core` is already installed (see "Headless Chrome" in Step 2), its `page.pdf()` also works, with `printBackground: true`.
+   - **A PDF tool or skill** in your environment that turns HTML into PDF and keeps its styles.
+   - **Neither**: give the user the HTML file and say, in one line: "Open it in your browser and choose Print, then Save as PDF."
+5. **Check it** if you can: open the PDF, or a screenshot of the HTML, and make sure the stamp shows and nothing is cut off. Then give the user the file.
+
 ## Several items
 
 If the user gives several URLs, screenshots, or emails, run the same mode on each. (If they give two and ask which is better, use Compare instead.) Give each item its own report and Jerry's block. End with a short table: one row per item, with its name, its score or mission result (with icon), and its biggest problem.

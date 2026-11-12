@@ -1,0 +1,208 @@
+<!doctype html>
+<!--
+  Grandma's branded report. How to fill it (see "Step 7: Save as PDF" in SKILL.md):
+  1. Set data-verdict on <body>: "approved", "needs-work", or "failed". The matching stamp shows by itself.
+  2. Replace every [bracketed] text with the report's own words, in the same voice as the chat report.
+  3. Keep only the blocks marked for this report type (mission, full check, or compare) and delete the others.
+     Delete any section that is empty in the chat report.
+  4. Copy Jerry's block exactly as in the chat report.
+-->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>[Report title] · Grandma</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Big+Shoulders+Stencil+Display:wght@900&family=Young+Serif&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --ink: #1f1b16;
+    --ink-soft: #5b5248;
+    --line: #d9cdb6;
+    --paper: #ffffff;
+    --panel: #f3ecdf;
+    --green: #3d7350;
+    --amber: #b9791a;
+    --red: #b8392a;
+  }
+  @page { size: A4; margin: 16mm 16mm 14mm; }
+  * { box-sizing: border-box; }
+  html { -webkit-print-color-adjust: exact; print-color-adjust: exact; }
+  body {
+    margin: 0 auto; max-width: 178mm; padding: 10mm 0;
+    background: var(--paper); color: var(--ink);
+    font: 10.5pt/1.5 "Atkinson Hyperlegible", "Segoe UI", system-ui, sans-serif;
+  }
+  @media print { body { padding: 0; } }
+  h1, h2, .brand, .intro { font-family: "Young Serif", Georgia, serif; font-weight: 400; }
+
+  header.top { display: flex; align-items: center; gap: 10px; border-bottom: 1.5px solid var(--ink); padding-bottom: 8px; }
+  header.top .brand { font-size: 17pt; }
+  header.top .meta { margin-left: auto; text-align: right; color: var(--ink-soft); font-size: 8.5pt; line-height: 1.35; }
+
+  .hero { position: relative; padding-right: 42mm; min-height: 40mm; }
+  h1 { font-size: 19pt; line-height: 1.2; margin: 14px 0 3px; }
+  .subtitle { font-style: italic; color: var(--ink-soft); font-size: 9pt; }
+  .stamp { display: none; position: absolute; right: 0; top: 6px; width: 38mm; height: 38mm; }
+  body[data-verdict="approved"] .stamp.approved,
+  body[data-verdict="needs-work"] .stamp.needs-work,
+  body[data-verdict="failed"] .stamp.failed { display: block; }
+  .stamp.approved { transform: rotate(-7deg); }
+  .stamp.needs-work { transform: rotate(5deg); }
+  .stamp.failed { transform: rotate(-11deg); }
+  .stamp text { font-family: "Big Shoulders Stencil Display", Impact, sans-serif; font-weight: 900; }
+  .face { fill: none; stroke-width: 3.4; stroke-linecap: round; stroke-linejoin: round; }
+
+  table { width: 100%; border-collapse: separate; border-spacing: 0; border: 1.5px solid var(--ink); border-radius: 6px; overflow: hidden; margin: 12px 0; font-size: 9.5pt; }
+  th { background: var(--ink); color: var(--paper); text-align: left; font-size: 7.5pt; text-transform: uppercase; letter-spacing: .08em; padding: 6px 10px; }
+  td { padding: 7px 10px; vertical-align: top; border-top: 1px solid var(--line); }
+  tr:first-child td { border-top: 0; }
+  .meter { letter-spacing: .1em; white-space: nowrap; }
+  .note { font-size: 9pt; color: var(--ink-soft); margin: -4px 0 10px; }
+
+  .intro { font-size: 12pt; margin: 6px 0 12px; }
+  h2 { font-size: 11pt; margin: 14px 0 6px; }
+  p { margin: 0 0 8px; }
+  .point { margin: 0 0 9px; break-inside: avoid; }
+  .fix { display: block; font-weight: 700; }
+  ul { margin: 0 0 8px; padding-left: 18px; }
+
+  .jerry { display: flex; gap: 10px; background: var(--panel); border-radius: 8px; padding: 10px 12px; margin-top: 14px; break-inside: avoid; }
+  .jerry svg { flex: none; width: 15mm; height: 17mm; }
+  .jerry .who { font-family: "Young Serif", Georgia, serif; font-size: 10.5pt; margin-bottom: 4px; }
+  .jerry pre { margin: 0; font: 9pt/1.45 "Atkinson Hyperlegible", system-ui, sans-serif; white-space: pre-wrap; }
+  .disclaimer { font-style: italic; font-size: 8.5pt; color: var(--ink-soft); margin-top: 6px; }
+
+  footer { margin-top: 18px; padding-top: 6px; border-top: 1px solid var(--line); display: flex; justify-content: space-between; font-size: 8pt; color: var(--ink-soft); }
+</style>
+</head>
+<body data-verdict="needs-work">
+
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <defs>
+    <filter id="ink">
+      <feTurbulence type="fractalNoise" baseFrequency="1.6" numOctaves="1" seed="9" result="grain"/>
+      <feColorMatrix in="grain" type="matrix" values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 -0.9 1.3" result="mask"/>
+      <feComposite in="SourceGraphic" in2="mask" operator="in" result="speckled"/>
+      <feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4" result="n"/>
+      <feDisplacementMap in="speckled" in2="n" scale="2"/>
+    </filter>
+    <path id="ring" d="M75 75 m-54 0 a54 54 0 1 1 108 0 a54 54 0 1 1 -108 0"/>
+    <!-- Grandma's head, glasses, and nose; the mouth changes with her mood -->
+    <g id="grandma-base">
+      <path d="M14 132 C26 114 36 106 46 103 C38 95 31 84 29 68 C26 46 37 29 56 27 C48 19 52 6 63 6 C75 6 79 19 69 27 C87 30 95 46 92 66 C90 82 82 95 71 103 C82 106 94 114 106 132"/>
+      <path d="M31 60 C36 46 47 38 61 39 C74 38 85 46 89 58"/>
+      <path d="M37 62 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0 M53 61 Q59 57 65 61 a8 8 0 1 0 16 0 a8 8 0 1 0 -16 0"/>
+      <path d="M60 67 C58 75 56 79 61 80"/>
+    </g>
+    <g id="jerry">
+      <path d="M14 132 C28 116 38 108 48 105 C40 97 34 87 33 72 L33 60 C30 41 42 25 60 24 C70 10 93 11 99 25 C88 20 79 22 76 29 C89 33 93 47 91 62 L90 79 C88 93 80 101 70 105 C80 108 94 116 106 132"/>
+      <path d="M42 55 Q48 51 54 54 M65 50 Q72 44 79 50"/>
+      <path d="M44 61 Q48 63 52 61 M67 60 Q71 62 75 60"/>
+      <path d="M60 61 C58 71 57 75 62 76 M49 87 Q60 92 73 82 M61 97 l0 3"/>
+    </g>
+  </defs>
+</svg>
+
+<header class="top">
+  <svg width="34" height="40" viewBox="0 0 120 140" aria-hidden="true"><g class="face" stroke="var(--ink)" style="stroke-width:4"><use href="#grandma-base"/><path d="M49 87 Q59 95 71 87"/></g></svg>
+  <span class="brand">Grandma</span>
+  <span class="meta">[Mission report / Full check / Comparison]<br>[Date]</span>
+</header>
+
+<section class="hero">
+  <!-- The three verdict stamps. Only the one matching body[data-verdict] is shown. -->
+  <svg class="stamp approved" viewBox="0 0 150 150" role="img" aria-label="Grandma approved">
+    <g filter="url(#ink)" fill="none" stroke="var(--green)">
+      <circle cx="75" cy="75" r="70" stroke-width="4"/><circle cx="75" cy="75" r="62" stroke-width="1.5"/>
+      <text font-size="13" fill="var(--green)" stroke="none"><textPath href="#ring" textLength="330" lengthAdjust="spacing">GRANDMA APPROVED ★ GRANDMA APPROVED ★</textPath></text>
+      <g class="face" transform="translate(41 34) scale(.567)"><use href="#grandma-base"/><path d="M46 85 Q59 99 74 85"/></g>
+    </g>
+  </svg>
+  <svg class="stamp needs-work" viewBox="0 0 150 150" role="img" aria-label="Needs work">
+    <g filter="url(#ink)" fill="none" stroke="var(--amber)">
+      <circle cx="75" cy="75" r="70" stroke-width="4"/><circle cx="75" cy="75" r="62" stroke-width="1.5"/>
+      <text font-size="13" fill="var(--amber)" stroke="none"><textPath href="#ring" textLength="330" lengthAdjust="spacing">NEEDS WORK ★ NEEDS WORK ★ NEEDS WORK ★</textPath></text>
+      <g class="face" transform="translate(41 34) scale(.567)"><use href="#grandma-base"/><path d="M50 89 L70 89"/></g>
+    </g>
+  </svg>
+  <svg class="stamp failed" viewBox="0 0 150 150" role="img" aria-label="Failed the test">
+    <g filter="url(#ink)" fill="none" stroke="var(--red)">
+      <circle cx="75" cy="75" r="70" stroke-width="4"/><circle cx="75" cy="75" r="62" stroke-width="1.5"/>
+      <text font-size="13" fill="var(--red)" stroke="none"><textPath href="#ring" textLength="330" lengthAdjust="spacing">FAILED THE TEST ★ FAILED THE TEST ★</textPath></text>
+      <g class="face" transform="translate(41 34) scale(.567)"><use href="#grandma-base"/><path d="M37 46 L50 42 M70 42 L83 46 M48 93 Q59 83 72 93"/></g>
+    </g>
+  </svg>
+
+  <h1>[The report's title, without the leading icon]</h1>
+  <div class="subtitle">[The subtitle line]</div>
+
+  <!-- MISSION: keep this table -->
+  <table>
+    <tr><th>Result</th><th>Reading effort</th><th>Why</th></tr>
+    <tr><td><b>[✅/⚠️/⛔ result]</b></td><td><span class="meter">[●●○○]</span> [label]</td><td>[one line of evidence]</td></tr>
+  </table>
+
+  <!-- FULL CHECK: keep this table instead -->
+  <table>
+    <tr><th>Score</th><th>Biggest problem</th></tr>
+    <tr><td><b>[X]/10</b></td><td>[⛔/⚠️] [check name]: [the problem]</td></tr>
+  </table>
+
+  <!-- COMPARE: keep this table instead -->
+  <table>
+    <tr><th>Grandma's favorite</th><th>Why</th></tr>
+    <tr><td><b>[🏆 name / 🤝 It's a tie]</b></td><td>[the deciding difference]</td></tr>
+  </table>
+</section>
+
+<p class="note">[Uncertainty line, if the chat report has one]</p>
+<p class="intro">[Grandma's intro]</p>
+
+<!-- MISSION -->
+<h2>[How I got there]</h2>
+<p>[Home → "Label" → Page (N clicks)]</p>
+
+<!-- FULL CHECK -->
+<h2>[How each check went]</h2>
+<table>
+  <tr><th>Check</th><th>Result</th></tr>
+  <tr><td>[Check name]</td><td>[✅ Works / ⚠️ Wobbly / ⛔ Stuck]</td></tr>
+</table>
+
+<!-- COMPARE -->
+<h2>[Side by side]</h2>
+<table>
+  <tr><th></th><th>[user's page]</th><th>[other page]</th></tr>
+  <tr><td>Result</td><td>[result]</td><td>[result]</td></tr>
+  <tr><td>Reading effort</td><td>[meter label]</td><td>[meter label]</td></tr>
+  <tr><td>Clicks</td><td>[N]</td><td>[N]</td></tr>
+  <tr><td>Biggest snag</td><td>[few words]</td><td>[few words]</td></tr>
+</table>
+<h2>[Why I liked … better]</h2>
+<ul><li>[point]</li></ul>
+<h2>[What … does better]</h2>
+<ul><li>[point]</li></ul>
+
+<!-- ALL REPORTS -->
+<h2>[Where I hesitated]</h2>
+<p class="point">[⛔/⚠️] [The problem]<span class="fix">→ Fix: [one short line]</span></p>
+
+<h2>[✅ What I liked]</h2>
+<ul><li>[point]</li></ul>
+
+<div class="jerry">
+  <svg viewBox="0 0 120 140" aria-hidden="true"><g class="face" stroke="var(--ink)"><use href="#jerry"/></g></svg>
+  <div>
+    <div class="who">[Here's what my friend Jerry suggests]</div>
+    <pre>[Jerry's block, exactly as in the chat report]</pre>
+    <div class="disclaimer">[The italic disclaimer line under Jerry's block]</div>
+  </div>
+</div>
+
+<footer>
+  <span>Checked by Grandma · github.com/theopelle/grandma</span>
+  <span>[Date]</span>
+</footer>
+</body>
+</html>
