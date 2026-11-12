@@ -168,7 +168,7 @@ What it returns, as JSON:
 - `screenshots.firstLook`: the first screen exactly as a first-time visitor sees it, banners included. Open it as an image and use it for First look. `screenshots.fullPage` is the whole page after the banner is closed.
 - `cookieBanner`: which button closed it, or "none found". If none was found, check the first-look screenshot for a banner and say it could not be closed.
 - `extract` and `finds`: the same results as the scripts in Step 3.
-- `links`: the visible links with their text and address. For a mission, Grandma picks the link she would click, and you run the script again on that address. It counts as one click.
+- `links`: the visible links with their text and address. For a mission, Grandma picks the link she would click, and you run the script again on that address. It counts as one click. A link with `brokenLink` has a leftover placeholder address (like "[link]") or an empty one: clicking it goes nowhere, so Grandma is stuck there.
 
 The script can only follow links. If Grandma's path needs a menu, tab, or accordion opened, say so in the report and judge that step from the screenshot.
 
@@ -188,7 +188,7 @@ Three ways in:
 3. **From an email platform**: if a connector for the user's email tool is available (for example HubSpot or Mailchimp), find the email by the name the user gives and get its subject line, preview text, sender name, and HTML body. If the connector can render a preview image, use it for the visual checks. If no connector is available, the user can also paste or attach the email HTML. Otherwise, ask for a screenshot.
 
 For email HTML, extract by reading the HTML (emails rarely use proper heading tags):
-- Headlines = text with font-size 20 px or more, or heading tags.
+- Headlines = text with font-size 24 px or more, or heading tags.
 - Bold text = `<strong>`, `<b>`, or font-weight 600 or more inside body text.
 - Buttons = links inside a cell or block with a background color, or with a border.
 - Lazy reader = headlines plus the first sentence of each paragraph, up to 30% of all words.
@@ -199,7 +199,7 @@ For email HTML, extract by reading the HTML (emails rarely use proper heading ta
 With headless Chrome (Step 2), both scripts run automatically: use the `extract` and `finds` results from its output, and skip to Step 4. Otherwise, read `scripts/extract.js` from this skill's folder and run its whole content in the page with the browser's JavaScript tool. It never changes or submits anything. Skip it if only First look is needed and no timing is wanted.
 
 What the script returns:
-- `headings`, `bold`, `buttons`, `skim`: the extracts for the skim checks.
+- `headings`, `bold`, `buttons`, `skim`: the extracts for the skim checks. `headings` also lists big text (24 px or more) without a heading tag, marked `BIG:`, as emails and page builders often use. `bold` includes text made bold with styles. `buttons` includes links styled as buttons, also when the color sits on the box around the link or inside it (as in most emails); a button with `brokenLink` goes nowhere (a leftover placeholder like "[link]", or an empty address).
 - `bodyFontMedianPx`, `paragraphsUnder14px`: text size.
 - `contrast`: how many text elements were checked, how many fail the WCAG contrast minimum (4.5:1 for normal text, 3:1 for large text), and the 5 worst. Text on background images cannot be measured; `textOnImages` counts it, so check those by eye on the screenshot.
 - `timing`: seconds until the first content appeared and until the page fully loaded, as measured in this browser. It depends on the connection, so treat it as a rough signal, and say so.
@@ -212,7 +212,7 @@ If the JavaScript tool is not available, build the extracts from the browser's p
 Read `scripts/find-answer.js` from this skill's folder and run it once per answer Grandma looks for (the mission target, or each of her top questions). Before running it, replace the text in its last line with a short, exact phrase from the answer as it appears on the page, for example "12 May", "€15", or "Get your ticket". If it is not found, try a shorter piece of it before deciding it is missing.
 
 What it returns:
-- `inSkim`: true if the answer sits in a headline, bold text, a button, or big text (24 px or more, like a large price), so Grandma can spot it while skimming.
+- `inSkim`: true if the answer sits in a headline, bold text (tags or styles), a button (including links styled as buttons), or big text (24 px or more, like a large price), so Grandma can spot it while skimming.
 - `wordsBefore`: all the words she reads, from the top of the main content, before she reaches the answer. Menus (including side menus), sidebars, and the footer are not counted.
 - `skimWordsBefore`: only the skim words (headlines, bold, buttons, big text) before it.
 - `screensDown`: how many screens she scrolls to reach it (under 1 means it is on the first screen).
@@ -275,7 +275,7 @@ Run the checks for the input type. For each, decide: **Works**, **Wobbly**, or *
 
 **Finding it.** For each of Grandma's top 3 questions, find the answer on the page and rate the reading effort (1 to 4, see "Reading effort" in Step 4A). The check takes the worst rating: 1 is Works, 2 is Wobbly, 3 or 4 is Stuck. In the report, name the question and the word count ("I read about 420 words before I found where it is").
 
-**Buttons.** From the buttons only: is there ONE clear main button on the first screen? Do labels say what happens next ("Get your ticket" is good; "Submit", "Click here", or "Learn more" alone are weak)? Too many look-alike buttons? Any icon-only buttons?
+**Buttons.** From the buttons only: is there ONE clear main button on the first screen? Do labels say what happens next ("Get your ticket" is good; "Submit", "Click here", or "Learn more" alone are weak)? Too many look-alike buttons? Any icon-only buttons? A main button with `brokenLink` (it goes nowhere, for example a leftover "[link]" placeholder) is Stuck: quote the address.
 
 **Forms.** Skip if there is no form. Otherwise, from `forms` (or the screenshot):
 - Too many fields: more than about 5 for a simple sign-up or contact form is Wobbly; asking for things that do not seem needed is a problem.

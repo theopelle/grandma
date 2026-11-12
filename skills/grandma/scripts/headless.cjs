@@ -51,7 +51,11 @@ const pw = (() => { try { return require('playwright'); } catch { return require
   // Links, so a mission can continue by opening the next page with this script.
   const links = await page.evaluate(() => [...document.querySelectorAll('a[href]')]
     .filter(a => a.getBoundingClientRect().width > 0)
-    .map(a => ({ text: (a.innerText || a.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim().slice(0, 80), href: a.href }))
+    .map(a => { const raw = (a.getAttribute('href') || '').trim();
+      // Flag leftover placeholders (like "[link]"): the browser turns them into a normal-looking address.
+      const broken = !raw || /[\[\]{}<>]|^(link|url|linkki)$/i.test(raw);
+      return { text: (a.innerText || a.getAttribute('aria-label') || '').replace(/\s+/g, ' ').trim().slice(0, 80), href: a.href,
+        ...(broken ? { brokenLink: raw || '(empty)' } : {}) }; })
     .filter(l => l.text).slice(0, 150));
 
   const fullPage = path.join(out, `page-${w}.png`);

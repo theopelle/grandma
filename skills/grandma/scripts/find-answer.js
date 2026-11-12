@@ -5,6 +5,16 @@
   const words = s => s.split(/\s+/).filter(Boolean).length;
   const skimSel = 'h1,h2,h3,h4,strong,b,mark,button,[role=button],input[type=submit],a[class*=button],a[class*=btn],a[class*=cta]';
   const n = needle.toLowerCase().replace(/\s+/g, ' ').trim();
+  // A link that looks like a button: its own box, a box around it holding only the link (email buttons put
+  // the color on the table cell), or a box inside it, has a border or a background that differs from what is behind it.
+  const solid = c => c && c !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(c);
+  const bgBehind = el => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (solid(c)) return c; }
+    return 'rgb(255, 255, 255)'; };
+  const buttonLink = el => { const a = el.closest('a'); if (!a) return false; const t = a.innerText.trim(); if (!t) return false;
+    const looks = e => { const s = getComputedStyle(e); return /btn|button|cta/i.test(e.getAttribute('class') || '') ||
+      parseFloat(s.borderTopWidth) > 0 || (solid(s.backgroundColor) && s.backgroundColor !== bgBehind(e.parentElement)); };
+    for (let e = a, i = 0; e && i < 3 && e.innerText.trim() === t; e = e.parentElement, i++) if (looks(e)) return true;
+    return [...a.querySelectorAll('*')].some(e => e.innerText.trim() === t && looks(e)); };
   // Side menus without proper tags: a narrow, full-height panel against the left or right edge.
   const inSidePanel = el => { for (let e = el; e && e !== document.body; e = e.parentElement) {
       const r = e.getBoundingClientRect();
@@ -18,7 +28,7 @@
     const r = el.getBoundingClientRect(); const s = getComputedStyle(el);
     if (r.width === 0 || r.height === 0 || s.visibility === 'hidden' || inSidePanel(el)) continue;
     const t = node.textContent.replace(/\s+/g, ' ').trim(); if (!t) continue;
-    const inSkim = !!el.closest(skimSel) || parseFloat(s.fontSize) >= 24;
+    const inSkim = !!el.closest(skimSel) || parseFloat(s.fontSize) >= 24 || parseInt(s.fontWeight) >= 600 || buttonLink(el);
     const i = t.toLowerCase().indexOf(n);
     if (i >= 0) {
       const before = words(t.slice(0, i));

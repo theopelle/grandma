@@ -7,24 +7,50 @@
   const root = document.querySelector('main') || document.body;
   const words = s => s.split(/\s+/).filter(Boolean).length;
 
+  // Elements with their own text (not only text inside child tags).
+  const ownText = el => [...el.childNodes].some(n => n.nodeType === 3 && n.textContent.trim());
+  const outside = 'nav,header,footer,aside,[role=navigation],h1,h2,h3,h4,button,a';
+
+  // Headlines: heading tags, plus big text (24 px or more) without them, as emails and page builders often do.
+  const big = [...root.querySelectorAll('body *')].filter(el => ownText(el) && !el.closest(outside + ',script,style')
+    && parseFloat(getComputedStyle(el).fontSize) >= 24 && vis(el)).map(el => `BIG: ${txt(el)}`).filter(h => /\p{L}{2}/u.test(h.slice(5)));
   const headings = [...document.querySelectorAll('h1,h2,h3,h4')].filter(vis)
-    .map(h => `${h.tagName}: ${txt(h)}`).filter(h => h.length > 4);
+    .map(h => `${h.tagName}: ${txt(h)}`).filter(h => h.length > 4).concat(big);
 
+  // Bold: bold tags, plus text made bold with styles (font-weight 600 or more), as emails often do.
+  // For text bold by style, take only the element's own text, not the text of everything inside it.
+  const ownOnly = el => [...el.childNodes].filter(n => n.nodeType === 3).map(n => n.textContent).join(' ').replace(/\s+/g, ' ').trim();
   const bold = [...root.querySelectorAll('strong,b,mark')].filter(vis)
-    .filter(el => !el.closest('nav,header,footer,button,a'))
-    .map(txt).filter(Boolean);
+    .filter(el => !el.closest('nav,header,footer,button,a')).map(txt)
+    .concat([...root.querySelectorAll('body *')].filter(el => ownText(el) && !el.closest(outside + ',strong,b,mark,script,style')
+      && parseInt(getComputedStyle(el).fontWeight) >= 600 && parseFloat(getComputedStyle(el).fontSize) < 24 && vis(el)).map(ownOnly))
+    .filter(Boolean);
 
-  const isButton = el => {
-    if (el.matches('button,[role=button],input[type=submit],input[type=button]')) return true;
-    if (el.tagName !== 'A') return false;
-    const s = getComputedStyle(el); const bg = s.backgroundColor;
-    return (bg && bg !== 'rgba(0, 0, 0, 0)' && bg !== 'transparent') ||
-      parseFloat(s.borderTopWidth) > 0 || /btn|button|cta/i.test(el.className);
+  // A link looks like a button if its own box, a box around it holding only the link (email buttons put the
+  // color on the table cell), or a box inside it, has a border or a background that differs from what is behind it.
+  const solid = c => c && c !== 'transparent' && !/rgba\(.*,\s*0\)$/.test(c);
+  const bgBehind = el => { for (let e = el; e; e = e.parentElement) { const c = getComputedStyle(e).backgroundColor; if (solid(c)) return c; }
+    return 'rgb(255, 255, 255)'; };
+  const buttonBox = el => {
+    if (el.matches('button,[role=button],input[type=submit],input[type=button]')) return el;
+    if (el.tagName !== 'A') return null;
+    if (/btn|button|cta/i.test(el.getAttribute('class') || '')) return el;
+    const t = el.innerText.trim(); if (!t) return null;
+    const looks = e => { const s = getComputedStyle(e); return /btn|button|cta/i.test(e.getAttribute('class') || '') ||
+      parseFloat(s.borderTopWidth) > 0 || (solid(s.backgroundColor) && s.backgroundColor !== bgBehind(e.parentElement)); };
+    for (let e = el, i = 0; e && i < 3 && e.innerText.trim() === t; e = e.parentElement, i++) if (looks(e)) return e;
+    // Some email builders put the colored box inside the link instead.
+    return [...el.querySelectorAll('*')].find(e => e.innerText.trim() === t && looks(e)) || null;
   };
-  const buttons = [...document.querySelectorAll('a,button,[role=button],input')].filter(vis).filter(isButton)
-    .map(b => { const r = b.getBoundingClientRect();
-      return { label: txt(b) || '[NO TEXT LABEL]', aboveFold: r.top < innerHeight,
-        bg: getComputedStyle(b).backgroundColor, size: `${Math.round(r.width)}x${Math.round(r.height)}` }; });
+  // A link address that is a leftover placeholder (like "[link]") or empty: the button goes nowhere.
+  // Links with no address at all, or "#", are usually page controls (tabs, "show more"), so they are not flagged.
+  const badHref = a => { if (a.tagName !== 'A' || !a.hasAttribute('href')) return undefined; const h = a.getAttribute('href').trim();
+    return !h || /[\[\]{}<>]|^(link|url|linkki)$/i.test(h) ? h || '(empty)' : undefined; };
+  const buttons = [...document.querySelectorAll('a,button,[role=button],input')].filter(vis)
+    .map(b => [b, buttonBox(b)]).filter(([, box]) => box)
+    .map(([b, box]) => { const r = box.getBoundingClientRect();
+      return { label: txt(b) || '[NO TEXT LABEL]', aboveFold: r.top < innerHeight, brokenLink: badHref(b),
+        bg: getComputedStyle(box).backgroundColor, size: `${Math.round(r.width)}x${Math.round(r.height)}` }; });
 
   const totalWords = words(root.innerText);
   const budget = Math.round(totalWords * 0.3);
