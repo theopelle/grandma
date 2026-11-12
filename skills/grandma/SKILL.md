@@ -172,6 +172,8 @@ What it returns, as JSON:
 
 The script can only follow links. If Grandma's path needs a menu, tab, or accordion opened, say so in the report and judge that step from the screenshot.
 
+A **jump link** (an address with `#`, like `page/#tickets`) only moves her down the same page. It still counts as one click. Run the script again on the full address with the `#` part: "Finding the answer" then counts only from the spot where she lands (`countedFrom` in the result).
+
 ### A screenshot (any interface: page, app, form, slide)
 The user attaches an image. Look at it directly. There is no script, so make the extract by hand BEFORE judging:
 - Headlines = the largest text blocks.
@@ -236,7 +238,9 @@ Then rate the **reading effort**, even if she made it (see "Reading effort" belo
 
 ### Reading effort
 
-How much Grandma has to read before she finds the answer. Use the numbers from "Finding the answer" (Step 3). Count `skimWordsBefore` if the answer is in skim text (`inSkim`), otherwise `wordsBefore`.
+How much Grandma has to read before she finds the answer. Use the numbers from "Finding the answer" (Step 3). Count `skimWordsBefore` if the answer is in skim text (`inSkim` is true), otherwise `wordsBefore`. Always follow this rule: never use `wordsBefore` when `inSkim` is true.
+
+Count along the path she took, not from the top of the page. If she clicked a jump link (Step 2), add the skim words before that link (run "Finding the answer" on the link's label, `skimWordsBefore`) to the count from where she landed. Example: 9 skim words to "Get your tickets", then 18 skim words from the ticket section to the price: 27 words.
 
 Pages without the answer: if Grandma visits a page on her path that does not have the answer, count only `skimWordsOnPage` for it. She skims a page to decide the answer is not there; she does not read every word of it. Add these to the words on the page where she finds the answer. If she never finds it, the rating is 4.
 

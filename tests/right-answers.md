@@ -23,7 +23,8 @@ Word counts were set by counting the page text by hand (a plain word count of th
 |---|---|
 | Result | ⚠️ **Made it, with effort** |
 | Reading effort | ●●●○ **3, Too much to read** (380 words before the price, not in skim text) |
-| Clicks | 0 (she scrolls; "Discover more" only jumps down the same page, so 1 click is also fine) |
+| Clicks | 0 if she scrolls, 1 if she clicks "Discover more" (a jump link down the same page). Both are fine. |
+| Word count | 380 if she scrolls from the top; 368 if she clicks "Discover more" (9 skim words to the button, then 359 from "Our story"). Both are level 3. |
 
 **Planted problems (all must be in the report):**
 1. **The price is buried.** "A day ticket costs €18" sits about 380 words down, in the middle of the "Our story" text, with no heading and no bold.
@@ -39,6 +40,8 @@ Not planted, fine either way: the orange button's white text is a little light (
 | "€18" | yes | no | 380 | 13 | 1 to 1.5 desktop, 1.5 to 2.5 mobile | 3 |
 | "14 June" | yes | yes (big text, 26 px) | 4 | 4 | under 1 | 1 |
 | "Parking" | no | | wordsOnPage 425 | skimWordsOnPage 13 | | 4 |
+| "Discover more" | yes | yes (button) | 19 | 9 | under 1 | 1 |
+| "€18" on `food-festival.html#story` (after the jump link) | yes, `countedFrom` "#story" | no | 359 | 2 | | 3 |
 
 Extract: `buttons` = ["Discover more"]; `bold` = none; `headings` include "H1: Riverside Food Festival", "H2: Our story", and "BIG: Saturday 14 June · Riverside Park".
 

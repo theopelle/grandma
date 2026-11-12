@@ -1,5 +1,6 @@
 // Grandma: count the words before an answer, for the reading effort rating.
 // Replace the text in the last line with a short, exact phrase from the answer, then run the whole file in the page.
+// If the page address ends in #something (a jump link), it counts only from that spot down.
 ((needle) => {
   const root = document.querySelector('main') || document.body;
   const words = s => s.split(/\s+/).filter(Boolean).length;
@@ -20,9 +21,14 @@
       const r = e.getBoundingClientRect();
       if (r.width < innerWidth * 0.3 && r.height >= innerHeight * 0.8 && (r.left < 10 || r.right > innerWidth - 10)) return true; }
     return false; };
+  // A jump link (an address ending in #something) lands her at that spot: count only from there.
+  const start = location.hash ? document.getElementById(decodeURIComponent(location.hash.slice(1))) : null;
+  const top = start ? start.getBoundingClientRect().top + scrollY : 0;
+  const from = start ? { countedFrom: location.hash } : {};
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT);
   let all = 0, skim = 0;
   for (let node; (node = walker.nextNode());) {
+    if (start && !start.contains(node) && (start.compareDocumentPosition(node) & Node.DOCUMENT_POSITION_PRECEDING)) continue;
     const el = node.parentElement;
     if (!el || el.closest('nav,aside,footer,[role=navigation],[role=complementary],script,style,noscript,template')) continue;
     const r = el.getBoundingClientRect(); const s = getComputedStyle(el);
@@ -32,11 +38,11 @@
     const i = t.toLowerCase().indexOf(n);
     if (i >= 0) {
       const before = words(t.slice(0, i));
-      return JSON.stringify({ found: true, inSkim, match: t.slice(0, 80),
+      return JSON.stringify({ found: true, inSkim, match: t.slice(0, 80), ...from,
         wordsBefore: all + before, skimWordsBefore: skim + (inSkim ? before : 0),
-        screensDown: +((r.top + scrollY) / innerHeight).toFixed(1) });
+        screensDown: +((r.top + scrollY - top) / innerHeight).toFixed(1) });
     }
     all += words(t); if (inSkim) skim += words(t);
   }
-  return JSON.stringify({ found: false, wordsOnPage: all, skimWordsOnPage: skim });
+  return JSON.stringify({ found: false, ...from, wordsOnPage: all, skimWordsOnPage: skim });
 })('PASTE THE ANSWER TEXT HERE')
