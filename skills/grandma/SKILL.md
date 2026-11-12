@@ -232,7 +232,14 @@ Grandma tries to do the ONE thing the user asked. She follows the most obvious p
 4. For screenshots and emails, she cannot click. Judge if the path is clear from what is visible.
 5. She gives up if: she needs more than 4 clicks, she scrolls past 3 screens without a clue, a blocker stops her, a form looks too long or confusing, or the right label uses words she would not connect to her goal.
 
-Result: **Made it**, **Made it, with effort**, or **Gave up**.
+Result, decided by these rules only:
+- **Made it**: she reached the goal, the reading effort is 1, and nothing blocked her on the way.
+- **Made it, with effort**: she reached the goal, but the reading effort is 2 or 3, or something blocked her and she had to work around it.
+- **Gave up**: see point 5 above. A reading effort of 4 is always Gave up.
+
+Something **blocked her** (⛔ in the report) when she could not go on until she dealt with it: a pop-up or cookie box covering the main button or about a third of the screen, a button that goes nowhere or to the wrong place, a main button whose label does not match her goal, or text too faint to read (under 3:1). Anything that only slowed her down is ⚠️ and does not change the result.
+
+Clicks count the links and buttons that take her to another page or another spot on the page. Closing a cookie box, opening a menu, or changing a quantity is not a click.
 
 Then rate the **reading effort**, even if she made it (see "Reading effort" below). For a path over several pages, add up the words she read on each page.
 
@@ -323,7 +330,7 @@ The reader is most likely a marketer checking a landing page or an email, not a 
 - **Tables**: only the result table, the check table (full check), and the side-by-side table (compare). Everything else is short text.
 - **Icons**, and only these:
   - Results and checks: ✅ Made it / Works, ⚠️ Made it, with effort / Wobbly, ⛔ Gave up / Stuck.
-  - Each point in "Where I hesitated" starts with ⛔ (it blocked her) or ⚠️ (it slowed her down). Put ⛔ points first.
+  - Each point in "Where I hesitated" starts with ⛔ (it blocked her, as defined in Step 4A) or ⚠️ (it slowed her down). Put ⛔ points first.
   - "What I liked" has one ✅ in its title; its points are plain bullets.
   - The tip starts with 💡.
   - Nothing else gets an icon.

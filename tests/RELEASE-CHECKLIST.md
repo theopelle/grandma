@@ -55,9 +55,11 @@ Then compare:
 - Every planted problem is in the report.
 
 **Real pages (R1, R2, R3), run 1 against run 2:**
-- Same result (or the same check results, for a full check) and the same reading-effort level.
-- Scores at most 1 point apart (full checks only).
+- Same result and the same reading-effort level.
+- Full checks: scores at most 1 point apart. Note any single check that differs (one check moving one step changes the score by at most 1); two or more checks differing counts as a failure.
 - Any known issue in the private notes (like a broken button link) is in both reports. If it is missing, count that as a failure too.
+
+**After a fix:** if a failure leads to a change in the skill or scripts, run part 1 again, and run the failed page twice more, plus any made-up page the change touches. Keep the earlier runs in the results file too.
 
 Also glance at each report for the layout rules in SKILL.md (result table first, the meter for reading effort, Jerry's block, one tip). A layout slip is not a failure, but note it.
 
