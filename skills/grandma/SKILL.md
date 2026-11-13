@@ -245,7 +245,7 @@ Result, decided by these rules only:
 - **Made it, with effort**: she reached the goal, but the reading effort is 2 or 3, or something blocked her and she had to work around it.
 - **Gave up**: see point 5 above. A reading effort of 4 is always Gave up.
 
-Something **blocked her** (⛔ in the report) when she could not go on until she dealt with it: a pop-up, chat box, or cookie box covering the main button, the answer she is looking for, or about a third of the screen, a button that goes nowhere or to the wrong place, a main button whose label does not match her goal, or text too faint to read (under 3:1). Anything that only slowed her down is ⚠️ and does not change the result, for example a chat box or pop-up that appears but covers nothing important. Name the pop-up and what it covered: "A chat box popped up over the First Class price."
+Something **blocked her** (⛔ in the report) when she could not go on until she dealt with it: a pop-up or chat box covering the main button, the answer she is looking for, or about a third of the screen, a cookie box she cannot close, a button that goes nowhere or to the wrong place, a main button whose label does not match her goal, or text too faint to read (under 3:1). Anything that only slowed her down is ⚠️ and does not change the result, for example a chat box or pop-up that appears but covers nothing important. A cookie box she can close is neither: visitors close them within seconds, so she closes it and moves on, with no point in the report. Name the pop-up and what it covered: "A chat box popped up over the First Class price."
 
 Clicks count the links and buttons that take her to another page or another spot on the page. Closing a cookie box, opening a menu, or changing a quantity is not a click.
 
@@ -284,7 +284,7 @@ Run the checks for the input type. For each, decide: **Works**, **Wobbly**, or *
 | Inbox | no | no | if visible | yes |
 | Images off | no | no | no | yes |
 
-**First look.** Only the first screen (for emails: the top part a phone shows before scrolling). Can Grandma tell what it is, who it is for, and what to do? Is anything in the way (cookie banner, pop-up, chat widget)? Stuck if one of these has no clear answer or a blocker covers about a third of the screen. For URLs, also use `timing`: first content after more than 3 seconds is Wobbly, more than 5 seconds is Stuck ("I waited 6 seconds and saw a white page").
+**First look.** Only the first screen (for emails: the top part a phone shows before scrolling). Can Grandma tell what it is, who it is for, and what to do? Is anything in the way (pop-up, chat widget)? Stuck if one of these has no clear answer or a blocker covers about a third of the screen. A cookie box does not count: visitors close it within seconds. Only a cookie box she cannot close counts as a blocker (`cookieBanner` says "none found" and the first-look screenshot shows one). For URLs, also use `timing`: first content after more than 3 seconds is Wobbly, more than 5 seconds is Stuck ("I waited 6 seconds and saw a white page").
 
 **Headlines.** From the headlines only, can she answer her top 3 questions? Works if all 3, Wobbly if 1 to 2, Stuck if none or if headlines are vague slogans ("Welcome", "Discover more").
 
