@@ -5,8 +5,9 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 | Step | What | Status |
 |---|---|---|
 | v1.3 | Trust: test pages and a release checklist | Shipped 12 Nov 2026 (v1.3.0) |
-| v1.3.1 | Fixes from the Cowork test: version number, private window, chat pop-ups, cookie boxes no longer blocking | In progress (started 13 Nov 2026) |
-| v1.4 | Company mode, shipped for one company (NBF), plus an update check for ZIP users | Next, after v1.3.1 |
+| v1.3.1 | Version number inside the skill | Shipped 13 Nov 2026 (v1.3.1) |
+| v1.3.2 | Fixes from the Cowork test: private window, chat pop-ups, cookie boxes no longer blocking | In progress (started 13 Nov 2026) |
+| v1.4 | Company mode, shipped for one company (NBF), plus an update check for ZIP users | Next, after v1.3.2 |
 | Rollout | NBF team: demo and launch checklist | Planned |
 | v1.5 | Several clients, for agencies and freelancers | Planned |
 | Launch | LinkedIn post | Planned |
@@ -43,8 +44,8 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 - Still to do: the release runs were done by Claude in Claude Code, not in Cowork. Test v1.3 in Cowork before v1.4 starts.
 - **Decision, 13 Nov 2026:** the skill gets a version number inside its own file, so "Which version do you have?" gets a clear answer in Cowork (the first Cowork test couldn't tell). Every release updates it. Comes as v1.3.1.
 - **Cowork test, 13 Nov 2026: passed.** The email scored 7/10 and the "[linkki]" placeholder was flagged. On the NBF 2027 page, both runs agreed (Made it, reading effort 1, about 27 words, counted from where the jump link lands). One gap: the Cowork browser remembered cookies from earlier visits, so Grandma never saw the cookie box a first-time visitor gets, and the new cookie rule could not be tested there. Only one of the two runs said so.
-- **Decision, 13 Nov 2026 (for v1.3.1):** Grandma opens every page in a fresh private window, like a first-time visitor. If a setup can't do that, nothing changes (no extra warnings). Chat pop-ups get flagged when they land on top of something that matters, for example the chat box covering the First Class price on the NBF site.
-- **Decision, 13 Nov 2026 (for v1.3.1):** cookie boxes no longer count as blocking. People accept or decline them within seconds, so Grandma closes one like a real visitor and moves on: it does not change the result and does not need a warning. Only a cookie box she cannot close gets flagged. This replaces the v1.3 rule that a cookie box over the main button is blocking.
+- **Decision, 13 Nov 2026 (for v1.3.2):** Grandma opens every page in a fresh private window, like a first-time visitor. If a setup can't do that, nothing changes (no extra warnings). Chat pop-ups get flagged when they land on top of something that matters, for example the chat box covering the First Class price on the NBF site.
+- **Decision, 13 Nov 2026 (for v1.3.2):** cookie boxes no longer count as blocking. People accept or decline them within seconds, so Grandma closes one like a real visitor and moves on: it does not change the result and does not need a warning. Only a cookie box she cannot close gets flagged. This replaces the v1.3 rule that a cookie box over the main button is blocking.
 
 ## v1.4: Company mode
 
