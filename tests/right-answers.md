@@ -1,6 +1,6 @@
 # Right answers for the made-up test pages
 
-The three pages in `tests/pages/` are made up, with problems planted on purpose, so the right answers are known exactly. The release checklist (`RELEASE-CHECKLIST.md`) compares Grandma against this file.
+The pages in `tests/pages/` are made up, with problems planted on purpose, so the right answers are known exactly. The release checklist (`RELEASE-CHECKLIST.md`) compares Grandma against this file.
 
 Word counts were set by counting the page text by hand (a plain word count of the text, outside the Grandma scripts), not by running the scripts. If you change a page, count again and update this file in the same commit.
 
@@ -99,3 +99,16 @@ Extract: `buttons` = ["Explore", "Submit"]; `forms` = one form, 2 fields, both `
 Extract: `buttons` = ["Book your seat"]; `headings` = ["BIG: You're invited"]; `bold` = ["HARBOUR LIGHTS"] (bold by style); `contrast.lowContrastCount` at least 3, worst ratio about 1.9.
 
 This page also guards against an old bug: before v1.3, email buttons (color on the table cell), email headlines (big text without a heading tag), and bold set by style were missed, so "Book your seat" counted as 128 plain words instead of 4 skim words.
+
+## Page D: Northwind Summit (pop-ups, numbers only)
+
+`tests/pages/chat-popup.html` · checked by the numbers part only (no report runs). A chat box appears after 3 seconds at the bottom right, and a newsletter box appears at the bottom left once the page is scrolled. The top bar is fixed but is a header, so it must not be listed.
+
+| | Desktop 1280x800 | Mobile 390x844 |
+|---|---|---|
+| `popups.atFirstLook` | none | none |
+| `popups.afterWaitAndScroll` | "Chat with us…" (bottom right, appeared later) and "Get our newsletter…" (bottom left, appeared later) | the same two, both bottom center |
+| `popups.coveredButtons` | none | none |
+| "2890" `coveredBy` | the chat box, even in the middle of the screen | the chat box, even in the middle of the screen |
+| "490 €" `coveredBy` | none | the chat box (it takes about 44% of a phone screen) |
+| "Buy tickets" `coveredBy` | none | none |

@@ -1,0 +1,50 @@
+<!doctype html>
+<!-- Grandma test page D (made up), for the numbers check only: pop-ups that appear late or while scrolling. See tests/right-answers.md. -->
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Northwind Summit 2027</title>
+<style>
+  body { margin: 0; font-family: Arial, sans-serif; color: #1a1a1a; background: #fff; }
+  .bar { position: fixed; top: 0; left: 0; right: 0; height: 64px; background: #10243e; color: #fff; display: flex; align-items: center; padding: 0 24px; font-weight: 700; z-index: 5; }
+  main { max-width: 1120px; margin: 0 auto; padding: 96px 20px 40px; }
+  h1 { font-size: 40px; margin: 0 0 10px; }
+  .btn { display: inline-block; background: #d62d20; color: #fff; padding: 14px 28px; border-radius: 6px; text-decoration: none; font-size: 18px; }
+  .cards { display: flex; flex-wrap: wrap; gap: 20px; margin: 40px 0; }
+  .card { flex: 1 1 300px; border: 1px solid #ccc; border-radius: 10px; padding: 24px; min-height: 160px; }
+  .card h2 { margin: 0 0 8px; font-size: 22px; }
+  .price { font-size: 34px; font-weight: 700; }
+  p { font-size: 17px; line-height: 1.6; }
+  #chat { display: none; position: fixed; right: 20px; bottom: 20px; width: 340px; height: 420px; background: #fff; border: 1px solid #bbb; border-radius: 12px; box-shadow: 0 6px 30px rgba(0,0,0,.25); z-index: 10; }
+  #chat header { background: #0a7d55; color: #fff; padding: 14px; border-radius: 12px 12px 0 0; font-weight: 700; }
+  #news { display: none; position: fixed; left: 20px; bottom: 20px; width: 300px; padding: 16px; background: #fff7d6; border: 1px solid #e0c96b; border-radius: 10px; z-index: 9; }
+</style>
+</head>
+<body>
+<div class="bar">Northwind Summit</div>
+<main>
+  <h1>Northwind Summit 2027</h1>
+  <p>Two days of talks for small business owners. 4 to 5 March 2027.</p>
+  <a class="btn" href="#tickets">Buy tickets</a>
+
+  <div class="cards" id="tickets">
+    <div class="card"><h2>Standard</h2><div class="price">490 €</div></div>
+    <div class="card"><h2>VIP</h2><div class="price">890 €</div></div>
+    <div class="card"><h2>First Class</h2><div class="price">2890 €</div></div>
+  </div>
+
+  <p>The summit brings together owners of small companies from all over the region. Each day starts with a short keynote, followed by workshops in small groups, so everyone gets time to ask questions and share what works for them.</p>
+  <p>Lunch and coffee are included in every ticket. The venue is a short walk from the central station, and there is a cloakroom at the entrance. If you need help on the day, our team wears green shirts and is happy to help.</p>
+  <p>Tickets can be changed to another name until one week before the event. Groups of five or more get a discount: write to us and we will send you an offer.</p>
+  <p>We look forward to seeing you in March.</p>
+  <div style="height: 900px"></div>
+</main>
+<div id="chat" role="dialog" aria-label="Chat"><header>Chat with us</header><p style="padding: 0 14px">Hi! Any questions about tickets? We usually answer within a few minutes.</p></div>
+<div id="news" role="dialog" aria-label="Newsletter">Get our newsletter: news and offers every month.</div>
+<script>
+  setTimeout(() => { document.getElementById('chat').style.display = 'block'; }, 3000);
+  addEventListener('scroll', () => { if (scrollY > 400) document.getElementById('news').style.display = 'block'; });
+</script>
+</body>
+</html>

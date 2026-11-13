@@ -3,7 +3,7 @@ name: grandma
 description: Check if a web page, screenshot, or email works for impatient, non-technical readers who skim, or compare two of them. Use for a grandma test, skim test, a 'can a visitor find X' check, or 'which of these two works better'.
 license: MIT
 metadata:
-  version: "1.3.1"
+  version: "1.3.2"
 ---
 
 # Grandma
@@ -12,7 +12,7 @@ metadata:
 
 This skill checks if a web page, a screenshot of any interface, or a marketing email works for a reader with limited IT skills who is impatient, skims, and does not read every word. It can also rewrite the copy that trips her up.
 
-This is Grandma v1.3.1. If the user asks which version this is, answer in one line: "I'm Grandma v1.3.1."
+This is Grandma v1.3.2. If the user asks which version this is, answer in one line: "I'm Grandma v1.3.2."
 
 ## The persona: Grandma
 
@@ -144,16 +144,18 @@ If the main action or questions are missing, infer them and mark them "(my guess
 ## Step 2: Get the content
 
 ### A URL
-Grandma is a first-time visitor, so use a clean browser with no cookies or logins. Load browser tools first if they are deferred, then take the first option that works:
+Grandma is a first-time visitor, so open every page in a fresh, clean window: no saved cookies, no logins, nothing from earlier visits. A browser that remembers an earlier visit hides the cookie box and pop-ups a new visitor sees. Load browser tools first if they are deferred, then take the first option that works:
 
-1. **A built-in or isolated browser tool**: Claude's built-in browser (in Cowork and the desktop app), or a Playwright or Chrome DevTools MCP server.
-2. **Headless Chrome**, when there is no browser tool but you can run shell commands (for example in Claude Code). See "Headless Chrome" below.
-3. **Claude in Chrome** (the user's own Chrome). Its cookies and logins are the user's, so cookie banners may not appear and the site may recognize them. Say in one line under the result table: "Checked in your own Chrome, so cookie banners and logins may differ from a first-time visit."
-4. **No browser at all**: fetch the HTML with a web fetch tool, run the text checks only, and say the visual and measured checks were skipped.
+1. **A browser tool that opens a fresh private or isolated window**, for example a Playwright or Chrome DevTools MCP server that starts a new browser each time. If the tool offers a private or incognito window, open every page in a new one.
+2. **Headless Chrome**, whenever you can run shell commands and reach the web (for example in Claude Code). It always starts clean. See "Headless Chrome" below.
+3. **Claude's built-in browser** (in Cowork and the desktop app). If it can open a private or new clean window, use that for every page.
+4. **Claude in Chrome** (the user's own Chrome). Its cookies and logins are the user's, so cookie banners may not appear and the site may recognize them. Say in one line under the result table: "Checked in your own Chrome, so cookie banners and logins may differ from a first-time visit."
+5. **No browser at all**: fetch the HTML with a web fetch tool, run the text checks only, and say the visual and measured checks were skipped.
 
 With a browser tool:
 - Open the URL in a new tab. Wait for it to load.
 - Do NOT close pop-ups or cookie banners yet. First record what Grandma sees (First look). Then dismiss them for the other checks.
+- Pop-ups and chat boxes often appear late or while scrolling. Before the other checks, wait about 7 seconds, scroll slowly down the whole page and back up, and look again. Note any chat box or pop-up that appeared, and whether it sits on top of the main button or the answer she is looking for, including when the answer first comes into view at the bottom of the screen.
 - Never submit forms, buy anything, or log in. Never type real personal data into a form.
 - For each device: desktop is about 1280 px wide, mobile about 390 px. If the browser cannot resize, test the current size and say so.
 
@@ -169,7 +171,9 @@ With a browser tool:
    - On Windows, set `NODE_PATH` with `set` first.
 
 What it returns, as JSON:
-- `screenshots.firstLook`: the first screen exactly as a first-time visitor sees it, banners included. Open it as an image and use it for First look. `screenshots.fullPage` is the whole page after the banner is closed.
+- `screenshots.firstLook`: the first screen exactly as a first-time visitor sees it, banners included. Open it as an image and use it for First look. `screenshots.afterWait` is the first screen again after about 7 seconds and a scroll through the page, with any late pop-up or chat box. `screenshots.fullPage` is the whole page after the banner is closed.
+- `popups`: what floats on top of the page. `atFirstLook` lists what was there at first (often the cookie box). `afterWaitAndScroll` lists what is there after the wait and the scroll, with `appearedLater` for anything that came late (chat boxes, newsletter pop-ups), where it sits, and how much of the screen it takes. `coveredButtons` lists first-screen buttons that something covers.
+- `finds[].coveredBy`: something floating (a chat box, a pop-up) sits on top of the answer, with `when`: "even in the middle of the screen", or "when it first appears at the bottom of the screen".
 - `cookieBanner`: which button closed it, or "none found". If none was found, check the first-look screenshot for a banner and say it could not be closed.
 - `extract` and `finds`: the same results as the scripts in Step 3.
 - `links`: the visible links with their text and address. For a mission, Grandma picks the link she would click, and you run the script again on that address. It counts as one click. A link with `brokenLink` has a leftover placeholder address (like "[link]") or an empty one: clicking it goes nowhere, so Grandma is stuck there.
@@ -241,7 +245,7 @@ Result, decided by these rules only:
 - **Made it, with effort**: she reached the goal, but the reading effort is 2 or 3, or something blocked her and she had to work around it.
 - **Gave up**: see point 5 above. A reading effort of 4 is always Gave up.
 
-Something **blocked her** (⛔ in the report) when she could not go on until she dealt with it: a pop-up or cookie box covering the main button or about a third of the screen, a button that goes nowhere or to the wrong place, a main button whose label does not match her goal, or text too faint to read (under 3:1). Anything that only slowed her down is ⚠️ and does not change the result.
+Something **blocked her** (⛔ in the report) when she could not go on until she dealt with it: a pop-up, chat box, or cookie box covering the main button, the answer she is looking for, or about a third of the screen, a button that goes nowhere or to the wrong place, a main button whose label does not match her goal, or text too faint to read (under 3:1). Anything that only slowed her down is ⚠️ and does not change the result, for example a chat box or pop-up that appears but covers nothing important. Name the pop-up and what it covered: "A chat box popped up over the First Class price."
 
 Clicks count the links and buttons that take her to another page or another spot on the page. Closing a cookie box, opening a menu, or changing a quantity is not a click.
 

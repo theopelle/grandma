@@ -103,18 +103,23 @@ const coveredBy = needle => {
     finds.push({ needle, ...JSON.parse(await page.evaluate(finder.replace("'PASTE THE ANSWER TEXT HERE'", JSON.stringify(needle)))) });
   }
 
-  const cover = async (needle, scroll) => {
-    if (scroll) { await page.evaluate(n => { const els = [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect();
+  // Scrolling down, she first sees the answer near the bottom of the screen, where chat boxes sit; then in the middle.
+  const cover = async (needle, block) => {
+    if (block) { await page.evaluate(([n, block]) => { const els = [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect();
         return r.width > 0 && r.height > 0 && (e.innerText || e.value || '').toLowerCase().includes(n.toLowerCase()); });
-      const el = els.find(e => !els.some(o => o !== e && e.contains(o))); if (el) el.scrollIntoView({ block: 'center' }); }, needle);
+      const el = els.find(e => !els.some(o => o !== e && e.contains(o)));
+      if (el) { el.scrollIntoView({ block: 'center' }); if (block === 'end') scrollBy(0, el.getBoundingClientRect().bottom - innerHeight * 0.92); } }, [needle, block]);
       await page.waitForTimeout(400); }
     return page.evaluate(`(${coveredBy})(${JSON.stringify(needle)})`);
   };
   await page.evaluate(() => scrollTo(0, 0));
   const coveredButtons = [];
   for (const b of extract.buttons.filter(b => b.aboveFold).slice(0, 10)) {
-    const by = await cover(b.label, false); if (by) coveredButtons.push({ button: b.label, coveredBy: by }); }
-  for (const f of finds) if (f.found) { const by = await cover(f.needle, true); if (by) f.coveredBy = by; }
+    const by = await cover(b.label, null); if (by) coveredButtons.push({ button: b.label, coveredBy: by }); }
+  for (const f of finds) if (f.found) {
+    const mid = await cover(f.needle, 'center'), low = mid || await cover(f.needle, 'end');
+    if (mid) f.coveredBy = { by: mid, when: 'even in the middle of the screen' };
+    else if (low) f.coveredBy = { by: low, when: 'when it first appears at the bottom of the screen' }; }
   await page.evaluate(() => scrollTo(0, 0));
 
   // Links, so a mission can continue by opening the next page with this script.

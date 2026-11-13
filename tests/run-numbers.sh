@@ -18,6 +18,7 @@ run() { # page width height phrases...
     const d = require(process.argv[1]); const e = d.extract;
     console.log(`\n== ${process.argv[2]} (${d.viewport})`);
     for (const f of d.finds) console.log("  find", JSON.stringify(f));
+    console.log("  popups", JSON.stringify({ atFirstLook: d.popups.atFirstLook, later: d.popups.afterWaitAndScroll.map(p => `${p.text.slice(0, 30)} (${p.where}${p.appearedLater ? ", appeared later" : ""})`), coveredButtons: d.popups.coveredButtons }));
     console.log("  buttons", JSON.stringify(e.buttons.map(b => b.label)));
     console.log("  bold", JSON.stringify(e.bold));
     console.log("  lowContrastCount", e.contrast.lowContrastCount, "worst", JSON.stringify(e.contrast.worst.slice(0, 2)));
@@ -31,4 +32,5 @@ for size in "1280 800" "390 844"; do
   run "food-festival.html#story" "$w" "$h" "€18"
   run coaching-workshop.html "$w" "$h" "Free workshop"
   run concert-email.html "$w" "$h" "9 October" "Book your seat"
+  run chat-popup.html "$w" "$h" "2890" "490 €" "Buy tickets"
 done

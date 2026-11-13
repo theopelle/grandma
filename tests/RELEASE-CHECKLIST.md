@@ -9,6 +9,7 @@ Claude runs this before every release of Grandma (every new version number), and
 | Page | Where | Public? |
 |---|---|---|
 | A, B, C: made-up pages with planted problems | `tests/pages/`, right answers in `tests/right-answers.md` | Yes |
+| D: made-up page with late pop-ups (numbers part only) | `tests/pages/chat-popup.html`, same right-answers file | Yes |
 | R1, R2, R3: real pages tested by hand before | listed in `tests/private/real-pages.md` | No: `tests/private/` is git-ignored, never pushed |
 
 If `tests/private/` is missing (for example in a fresh copy from GitHub), run the made-up pages only and say so in the results.
