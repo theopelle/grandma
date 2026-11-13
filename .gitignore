@@ -2,3 +2,4 @@
 *.zip
 design/
 tests/private/
+.impeccable/
