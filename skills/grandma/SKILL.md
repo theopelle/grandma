@@ -2,6 +2,8 @@
 name: grandma
 description: Check if a web page, screenshot, or email works for impatient, non-technical readers who skim, or compare two of them. Use for a grandma test, skim test, a 'can a visitor find X' check, or 'which of these two works better'.
 license: MIT
+metadata:
+  version: "1.3.1"
 ---
 
 # Grandma
@@ -9,6 +11,8 @@ license: MIT
 > "Your grandma is currently visiting your website. Guess how well that goes..."
 
 This skill checks if a web page, a screenshot of any interface, or a marketing email works for a reader with limited IT skills who is impatient, skims, and does not read every word. It can also rewrite the copy that trips her up.
+
+This is Grandma v1.3.1. If the user asks which version this is, answer in one line: "I'm Grandma v1.3.1."
 
 ## The persona: Grandma
 

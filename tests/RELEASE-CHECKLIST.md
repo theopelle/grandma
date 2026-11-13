@@ -73,6 +73,7 @@ Also glance at each report for the layout rules in SKILL.md (result table first,
 
 Only when every test passes or every failure is explained:
 
-1. Bump `version` in `.claude-plugin/plugin.json`.
-2. Commit, with the results file.
-3. **Ask Théo before pushing or tagging.** The repository is public, and pushing a `v*` tag publishes the release.
+1. Bump the version in both places, to the same number: `version` in `.claude-plugin/plugin.json`, and in `skills/grandma/SKILL.md` both `metadata: version` in the frontmatter and the "This is Grandma vX.Y.Z" line near the top.
+2. Check they match, and match the tag you will push (`vX.Y.Z`): `grep -n "1\.[0-9]*\.[0-9]" .claude-plugin/plugin.json skills/grandma/SKILL.md | head`. Any mismatch blocks the release.
+3. Commit, with the results file.
+4. **Ask Théo before pushing or tagging.** The repository is public, and pushing a `v*` tag publishes the release.
