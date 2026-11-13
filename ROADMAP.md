@@ -6,7 +6,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 |---|---|---|
 | v1.3 | Trust: test pages and a release checklist | Shipped 12 Nov 2026 (v1.3.0) |
 | v1.3.1 | Version number inside the skill | Shipped 13 Nov 2026 (v1.3.1) |
-| v1.3.2 | Fixes from the Cowork test: private window, chat pop-ups, cookie boxes no longer blocking | In progress (started 13 Nov 2026) |
+| v1.3.2 | Fixes from the Cowork test: private window, chat pop-ups, cookie boxes no longer blocking | Ready 13 Nov 2026, checked; waiting for push, tag, and a Cowork test |
 | v1.4 | Company mode, shipped for one company (NBF), plus an update check for ZIP users | Next, after v1.3.2 |
 | Rollout | NBF team: demo and launch checklist | Planned |
 | v1.5 | Several clients, for agencies and freelancers | Planned |
@@ -46,6 +46,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 - **Cowork test, 13 Nov 2026: passed.** The email scored 7/10 and the "[linkki]" placeholder was flagged. On the NBF 2027 page, both runs agreed (Made it, reading effort 1, about 27 words, counted from where the jump link lands). One gap: the Cowork browser remembered cookies from earlier visits, so Grandma never saw the cookie box a first-time visitor gets, and the new cookie rule could not be tested there. Only one of the two runs said so.
 - **Decision, 13 Nov 2026 (for v1.3.2):** Grandma opens every page in a fresh private window, like a first-time visitor. If a setup can't do that, nothing changes (no extra warnings). Chat pop-ups get flagged when they land on top of something that matters, for example the chat box covering the First Class price on the NBF site.
 - **Decision, 13 Nov 2026 (for v1.3.2):** cookie boxes no longer count as blocking. People accept or decline them within seconds, so Grandma closes one like a real visitor and moves on: it does not change the result and does not need a warning. Only a cookie box she cannot close gets flagged. This replaces the v1.3 rule that a cookie box over the main button is blocking.
+- **v1.3.2 checked against the roadmap, 13 Nov 2026: all three decisions are in** (private window first, late pop-ups and chat boxes flagged when they cover something that matters, cookie boxes no longer blocking). Release check passed (`tests/results/v1.3.2.md`): made-up pages A, B, and C pass, new test page D (late chat box) matches its right answers, and the NBF 2027 page is back to "Made it" in two runs out of two. The email and the comparable event's site were not run again, because the changes don't affect them. Still to do: a Cowork test after the push.
 
 ## v1.4: Company mode
 
