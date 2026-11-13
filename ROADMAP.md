@@ -35,6 +35,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 - Still to do: the release runs were done by Claude in Claude Code, not in Cowork. Test v1.3 in Cowork before v1.4 starts.
 - **Decision, 13 Nov 2026:** the skill gets a version number inside its own file, so "Which version do you have?" gets a clear answer in Cowork (the first Cowork test couldn't tell). Every release updates it. Comes as v1.3.1.
 - **Cowork test, 13 Nov 2026: passed.** The email scored 7/10 and the "[linkki]" placeholder was flagged. On the NBF 2027 page, both runs agreed (Made it, reading effort 1, about 27 words, counted from where the jump link lands). One gap: the Cowork browser remembered cookies from earlier visits, so Grandma never saw the cookie box a first-time visitor gets, and the new cookie rule could not be tested there. Only one of the two runs said so.
+- **Decision, 13 Nov 2026 (for v1.3.1):** Grandma opens every page in a fresh private window, like a first-time visitor. If a setup can't do that, nothing changes (no extra warnings). Chat pop-ups get flagged when they land on top of something that matters, for example the chat box covering the First Class price on the NBF site.
 
 ## v1.4: Company mode
 
