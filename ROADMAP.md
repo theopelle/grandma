@@ -10,6 +10,13 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 | v1.5 | Several clients, for agencies and freelancers | Planned |
 | Launch | LinkedIn post | Planned |
 
+## Every release
+
+1. Raise the version in `.claude-plugin/plugin.json` (and in the skill itself, from v1.3.1).
+2. Push.
+3. Add a matching tag (vX.Y.Z), so GitHub builds the release ZIP.
+4. Tell people, including asking the NBF admin to upload the new ZIP for the team.
+
 ## Goals
 
 - **For everyone, through a company mode.** The core stays general; any company can switch on its own brand. NBF is the first company to use it.
@@ -47,6 +54,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 - **Profiles stay private.** In Claude Code they live in the skill folder and are git-ignored. The public repo has only an example profile for a made-up company.
 - **Profiles live in a folder from day one,** ready for several clients (v1.5). v1.4 ships with one company.
 - **To check while building:** whether Grandma can make the ZIP in Cowork. If not, she gives the profile as text to paste into a file.
+- **Update check for ZIP users (decision, 13 Nov 2026).** People who uploaded Grandma as a ZIP (Cowork, claude.ai, a company's Claude) never get updates by themselves. So when she has internet access, Grandma compares her own version with the latest GitHub release. If a newer one is out, her tip line says so, for example: "A newer Grandma is out (v1.4). Download it at github.com/theopelle/grandma/releases/latest." If she can't check, she says nothing. Claude Code plugin users don't need this: they get updates through the plugin.
 
 ## Rollout at NBF
 
