@@ -5,7 +5,8 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 | Step | What | Status |
 |---|---|---|
 | v1.3 | Trust: test pages and a release checklist | Shipped 12 Nov 2026 (v1.3.0) |
-| v1.4 | Company mode, shipped for one company (NBF) | Next, after the v1.3 Cowork test |
+| v1.3.1 | Fixes from the Cowork test: version number, private window, chat pop-ups, cookie boxes no longer blocking | In progress (started 13 Nov 2026) |
+| v1.4 | Company mode, shipped for one company (NBF), plus an update check for ZIP users | Next, after v1.3.1 |
 | Rollout | NBF team: demo and launch checklist | Planned |
 | v1.5 | Several clients, for agencies and freelancers | Planned |
 | Launch | LinkedIn post | Planned |
