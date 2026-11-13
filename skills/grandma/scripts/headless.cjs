@@ -9,6 +9,43 @@ const fs = require('fs');
 const path = require('path');
 const pw = (() => { try { return require('playwright'); } catch { return require('playwright-core'); } })();
 
+// In the page: everything fixed on top of the page (cookie boxes, chat boxes, pop-ups), except a header bar along the top.
+const floating = () => {
+  const vw = innerWidth, vh = innerHeight, out = [];
+  for (const el of document.querySelectorAll('body *')) {
+    const s = getComputedStyle(el);
+    if (s.position !== 'fixed' || s.visibility === 'hidden' || s.display === 'none' || +s.opacity === 0) continue;
+    const r = el.getBoundingClientRect();
+    if (r.width * r.height < vw * vh * 0.015 || r.bottom <= 0 || r.top >= vh || r.right <= 0 || r.left >= vw) continue;
+    if (r.top <= 5 && r.height < 160 && r.width > vw * 0.9) continue;
+    if (out.some(o => o.contains(el))) continue;
+    out.push(el);
+  }
+  return out;
+};
+const describe = el => { const f = el.tagName === 'IFRAME' ? el : el.querySelector('iframe');
+  const t = (el.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+  return t || (f && (f.title || (f.src && new URL(f.src, location.href).hostname))) || el.getAttribute('aria-label') || '[no text]'; };
+// In the page: what fixed element (pop-up, chat box, banner) covers the element with this text, if any.
+const coveredBy = needle => {
+  const n = needle.toLowerCase();
+  const els = [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect();
+    return r.width > 0 && r.height > 0 && (e.innerText || e.value || '').toLowerCase().includes(n); });
+  const el = els.find(e => !els.some(o => o !== e && e.contains(o)));
+  if (!el) return null;
+  const r = el.getBoundingClientRect();
+  for (const [x, y] of [[0.5, 0.5], [0.15, 0.5], [0.85, 0.5]]) {
+    const hit = document.elementFromPoint(r.left + r.width * x, r.top + r.height * y);
+    if (!hit || el.contains(hit) || hit.contains(el)) continue;
+    for (let e = hit; e && e !== document.body; e = e.parentElement)
+      if (getComputedStyle(e).position === 'fixed') {
+        const t = (e.innerText || '').replace(/\s+/g, ' ').trim().slice(0, 80);
+        const f = e.tagName === 'IFRAME' ? e : e.querySelector('iframe');
+        return t || (f && (f.title || (f.src && new URL(f.src, location.href).hostname))) || '[no text]'; }
+  }
+  return null;
+};
+
 (async () => {
   const [url, w = '1280', h = '800', out = '.', ...needles] = process.argv.slice(2);
   if (!url) throw new Error('Usage: node headless.cjs <url> <width> <height> <output-folder> ["answer phrase" ...]');
@@ -23,11 +60,14 @@ const pw = (() => { try { return require('playwright'); } catch { return require
   });
   const page = await context.newPage();
   const response = await page.goto(url, { waitUntil: 'load', timeout: 45000 });
+  const loadedAt = Date.now();
   await page.waitForTimeout(2500);
 
   // First look: the screen exactly as a first-time visitor sees it, banners and all.
   const firstLook = path.join(out, `first-look-${w}.png`);
   await page.screenshot({ path: firstLook });
+  const atFirstLook = await page.evaluate(`(() => { const describe = ${describe}; const floating = ${floating};
+    return floating().map(el => { el.dataset.grandmaSeen = '1'; return describe(el); }); })()`);
 
   // Then dismiss a cookie banner with its most privacy-friendly button, if one is found.
   const banner = await page.evaluate(() => {
@@ -40,6 +80,21 @@ const pw = (() => { try { return require('playwright'); } catch { return require
   });
   if (banner) await page.waitForTimeout(1500);
 
+  // Pop-ups and chat boxes often appear after a few seconds or while scrolling: scroll through the page,
+  // wait, and come back to the top before measuring anything else.
+  const steps = await page.evaluate(() => Math.min(30, Math.ceil(document.documentElement.scrollHeight / innerHeight)));
+  for (let i = 1; i <= steps; i++) { await page.evaluate(i => scrollTo(0, i * innerHeight * 0.9), i); await page.waitForTimeout(300); }
+  await page.evaluate(() => scrollTo(0, 0));
+  await page.waitForTimeout(Math.max(1000, 7000 - (Date.now() - loadedAt)));
+  const afterWait = path.join(out, `after-wait-${w}.png`);
+  await page.screenshot({ path: afterWait });
+  const popups = await page.evaluate(`(() => { const describe = ${describe}; const floating = ${floating};
+    return floating().map(el => { const r = el.getBoundingClientRect();
+      return { text: describe(el), appearedLater: !el.dataset.grandmaSeen,
+        where: (r.top + r.height / 2 < innerHeight / 3 ? 'top' : r.top + r.height / 2 > innerHeight * 2 / 3 ? 'bottom' : 'middle') + ' ' +
+          (r.left + r.width / 2 < innerWidth / 3 ? 'left' : r.left + r.width / 2 > innerWidth * 2 / 3 ? 'right' : 'center'),
+        screenShare: +((Math.min(r.right, innerWidth) - Math.max(r.left, 0)) * (Math.min(r.bottom, innerHeight) - Math.max(r.top, 0)) / (innerWidth * innerHeight)).toFixed(2) }; }); })()`);
+
   const script = name => fs.readFileSync(path.join(__dirname, name), 'utf8');
   const extract = JSON.parse(await page.evaluate(script('extract.js')));
   const finder = script('find-answer.js');
@@ -47,6 +102,20 @@ const pw = (() => { try { return require('playwright'); } catch { return require
   for (const needle of needles) {
     finds.push({ needle, ...JSON.parse(await page.evaluate(finder.replace("'PASTE THE ANSWER TEXT HERE'", JSON.stringify(needle)))) });
   }
+
+  const cover = async (needle, scroll) => {
+    if (scroll) { await page.evaluate(n => { const els = [...document.querySelectorAll('body *')].filter(e => { const r = e.getBoundingClientRect();
+        return r.width > 0 && r.height > 0 && (e.innerText || e.value || '').toLowerCase().includes(n.toLowerCase()); });
+      const el = els.find(e => !els.some(o => o !== e && e.contains(o))); if (el) el.scrollIntoView({ block: 'center' }); }, needle);
+      await page.waitForTimeout(400); }
+    return page.evaluate(`(${coveredBy})(${JSON.stringify(needle)})`);
+  };
+  await page.evaluate(() => scrollTo(0, 0));
+  const coveredButtons = [];
+  for (const b of extract.buttons.filter(b => b.aboveFold).slice(0, 10)) {
+    const by = await cover(b.label, false); if (by) coveredButtons.push({ button: b.label, coveredBy: by }); }
+  for (const f of finds) if (f.found) { const by = await cover(f.needle, true); if (by) f.coveredBy = by; }
+  await page.evaluate(() => scrollTo(0, 0));
 
   // Links, so a mission can continue by opening the next page with this script.
   const links = await page.evaluate(() => [...document.querySelectorAll('a[href]')]
@@ -63,8 +132,9 @@ const pw = (() => { try { return require('playwright'); } catch { return require
 
   console.log(JSON.stringify({
     url: page.url(), status: response && response.status(), viewport: `${w}x${h}`, browser: `${browser.version()}`,
-    screenshots: { firstLook, fullPage },
+    screenshots: { firstLook, afterWait, fullPage },
     cookieBanner: banner ? `dismissed with "${banner}"` : 'none found: check the first-look screenshot',
+    popups: { atFirstLook, afterWaitAndScroll: popups, coveredButtons },
     extract, finds, links,
   }, null, 1));
   await browser.close();
