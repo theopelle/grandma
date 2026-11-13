@@ -4,8 +4,8 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 
 | Step | What | Status |
 |---|---|---|
-| v1.3 | Trust: test pages and a release checklist | In progress (started 12 Nov 2026) |
-| v1.4 | Company mode, shipped for one company (NBF) | Planned |
+| v1.3 | Trust: test pages and a release checklist | Shipped 12 Nov 2026 (v1.3.0) |
+| v1.4 | Company mode, shipped for one company (NBF) | Next, after the v1.3 Cowork test |
 | Rollout | NBF team: demo and launch checklist | Planned |
 | v1.5 | Several clients, for agencies and freelancers | Planned |
 | Launch | LinkedIn post | Planned |
@@ -27,6 +27,12 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
   - Real pages: two runs give the same result and reading-effort level, and scores at most 1 point apart.
 - **One AI-led release checklist** covers both the numbers (run `headless.cjs`, compare with the right-answers file) and the reports (run Grandma twice per page, compare).
 - **A failed test** blocks the release until it is fixed or explained.
+
+**Shipped 12 Nov 2026 as v1.3.0.** Checked against the pass rules on 13 Nov: all met (full results in `tests/results/v1.3.0.md`).
+- Made-up pages: result and reading effort right in every run, word counts within 4%, every planted problem found. On page A, the "wall of text" problem was merged into the price point instead of getting its own point; counted as found.
+- Real pages: two failures on the NBF 2027 page, both fixed by new rules, then runs agreed. The email's two scores were 6 and 7 (allowed).
+- New rules that came out of it: reading effort counts from where a jump link lands; "Made it" needs reading effort 1 and nothing blocking (a cookie box over the main button counts as blocking).
+- Still to do: the release runs were done by Claude in Claude Code, not in Cowork. Test v1.3 in Cowork before v1.4 starts.
 
 ## v1.4: Company mode
 
