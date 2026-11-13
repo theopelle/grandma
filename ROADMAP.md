@@ -33,6 +33,7 @@ Agreed on 12 November 2026. One focused improvement per release, each tested in 
 - Real pages: two failures on the NBF 2027 page, both fixed by new rules, then runs agreed. The email's two scores were 6 and 7 (allowed).
 - New rules that came out of it: reading effort counts from where a jump link lands; "Made it" needs reading effort 1 and nothing blocking (a cookie box over the main button counts as blocking).
 - Still to do: the release runs were done by Claude in Claude Code, not in Cowork. Test v1.3 in Cowork before v1.4 starts.
+- **Decision, 13 Nov 2026:** the skill gets a version number inside its own file, so "Which version do you have?" gets a clear answer in Cowork (the first Cowork test couldn't tell). Every release updates it. Comes as v1.3.1, before the Cowork test.
 
 ## v1.4: Company mode
 
